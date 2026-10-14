@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Página web interactiva: una constelación de partículas que reacciona al mouse.">
+  <title>Constelación Interactiva</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+  <!-- Lienzo donde se dibujan las partículas -->
+  <canvas id="lienzo"></canvas>
+
+  <!-- Título -->
+  <header class="titulo">
+    <h1>Constelación <span>Interactiva</span></h1>
+    <p>Mueve el mouse, haz clic y juega con los controles</p>
+  </header>
+
+  <!-- Panel de controles -->
+  <aside class="panel" id="panel">
+    <button class="panel-toggle" id="panelToggle" aria-label="Mostrar u ocultar controles" title="Mostrar/ocultar (H)">⚙</button>
+
+    <div class="panel-contenido">
+      <h2>Controles</h2>
+
+      <label class="control">
+        <span>Partículas <output id="valorCantidad">120</output></span>
+        <input type="range" id="cantidad" min="20" max="300" value="120">
+      </label>
+
+      <label class="control">
+        <span>Velocidad <output id="valorVelocidad">1.0</output></span>
+        <input type="range" id="velocidad" min="0.2" max="3" step="0.1" value="1">
+      </label>
+
+      <label class="control">
+        <span>Distancia de conexión <output id="valorDistancia">120</output></span>
+        <input type="range" id="distancia" min="40" max="220" value="120">
+      </label>
+
+      <div class="grupo">
+        <span class="grupo-titulo">Modo del mouse</span>
+        <div class="botones-modo">
+          <button class="boton-modo activo" data-modo="atraer">Atraer</button>
+          <button class="boton-modo" data-modo="repeler">Repeler</button>
+        </div>
+      </div>
+
+      <div class="grupo">
+        <span class="grupo-titulo">Paleta de colores</span>
+        <div class="paletas">
+          <button class="paleta activo" data-paleta="oceano" title="Océano" style="--c1:#38bdf8; --c2:#818cf8;"></button>
+          <button class="paleta" data-paleta="atardecer" title="Atardecer" style="--c1:#f97316; --c2:#f43f5e;"></button>
+          <button class="paleta" data-paleta="bosque" title="Bosque" style="--c1:#4ade80; --c2:#2dd4bf;"></button>
+          <button class="paleta" data-paleta="neon" title="Neón" style="--c1:#e879f9; --c2:#22d3ee;"></button>
+        </div>
+      </div>
+
+      <div class="acciones">
+        <button class="boton" id="pausar">Pausar</button>
+        <button class="boton secundario" id="reiniciar">Reiniciar</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Contador inferior -->
+  <div class="contador">
+    <span id="fps">60</span> FPS · <span id="total">120</span> partículas
+  </div>
+
+  <!-- Atajos de teclado -->
+  <div class="ayuda">
+    <kbd>Clic</kbd> explosión · <kbd>Espacio</kbd> pausa · <kbd>R</kbd> reiniciar · <kbd>H</kbd> panel
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
