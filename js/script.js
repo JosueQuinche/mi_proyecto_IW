@@ -30,6 +30,7 @@ const PALETAS = {
   atardecer: ["#f97316", "#f43f5e", "#fb923c", "#fda4af"],
   bosque: ["#4ade80", "#2dd4bf", "#86efac", "#5eead4"],
   neon: ["#e879f9", "#22d3ee", "#f0abfc", "#67e8f9"],
+  dorado: ["#facc15", "#f59e0b", "#fde047", "#fbbf24"],
 };
 
 // ---------- Estado de la aplicación ----------
