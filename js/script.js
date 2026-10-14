@@ -259,7 +259,7 @@ function animar(ahora) {
 
   if (!estado.pausado) {
     // Fondo con un poco de transparencia → deja una estela suave
-    ctx.fillStyle = "rgba(6, 9, 24, 0.28)";
+    ctx.fillStyle = esClaro() ? "rgba(241, 245, 249, 0.28)" : "rgba(6, 9, 24, 0.28)";
     ctx.fillRect(0, 0, ancho, alto);
 
     for (const p of particulas) p.actualizar();
@@ -283,7 +283,7 @@ function alternarPausa() {
 }
 
 function reiniciar() {
-  ctx.fillStyle = "#060918";
+  ctx.fillStyle = esClaro() ? "#f1f5f9" : "#060918";
   ctx.fillRect(0, 0, ancho, alto);
   ondas = [];
   crearParticulas();
@@ -381,6 +381,31 @@ document.addEventListener("keydown", (e) => {
     panel.classList.toggle("oculto");
   }
 });
+// ---------- Modo claro / oscuro ----------
+const botonTema = document.getElementById("temaToggle");
+
+function esClaro() {
+  return document.body.classList.contains("claro");
+}
+
+function alternarTema() {
+  document.body.classList.toggle("claro");
+  botonTema.textContent = esClaro() ? "🌙" : "☀️";
+  try {
+    localStorage.setItem("tema", esClaro() ? "claro" : "oscuro");
+  } catch (e) {}
+}
+
+botonTema.addEventListener("click", alternarTema);
+
+document.addEventListener("keydown", (e) => {
+  if (e.target.tagName !== "INPUT" && e.key.toLowerCase() === "t") alternarTema();
+});
+
+// Recuerda el último tema elegido
+try {
+  if (localStorage.getItem("tema") === "claro") alternarTema();
+} catch (e) {}
 
 // ---------- Inicio ----------
 ajustarLienzo();
