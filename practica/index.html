@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Josué Quinche">
+  <meta name="description" content="Especificación de requisitos funcionales y no funcionales del Dashboard de Nómina para NETTPLUS">
+  <title>Especificación de Requisitos — Dashboard de Nómina NETTPLUS</title>
+</head>
+<body>
+
+<!-- ============================================================
+     PORTADA
+     ============================================================ -->
+<header>
+  <p>Universidad Técnica Particular de Loja</p>
+  <p>Carrera de Computación</p>
+  <p>Asignatura de Ingeniería Web</p>
+
+  <h1>Especificación de Requisitos Funcionales y No Funcionales</h1>
+  <p><strong>Dashboard de Nómina para NETTPLUS</strong></p>
+  <p>
+    Aplicación web para la consolidación de marcaciones, el seguimiento
+    de indicadores de asistencia y la preparación del reporte de nómina
+  </p>
+
+  <p>
+    Elaborado a partir de la reunión con el cliente del
+    <time datetime="2026-10-14">14 de octubre de 2026</time>
+  </p>
+
+  <address>Autor: Josué Quinche</address>
+  <p>
+    Versión 1.0 — Loja, Ecuador,
+    <time datetime="2026-10-18">18 de octubre de 2026</time>
+  </p>
+</header>
+
+<hr>
+
+<!-- ============================================================
+     ÍNDICES
+     ============================================================ -->
+<nav>
+  <h2 id="indice">Índice de contenidos</h2>
+  <ol>
+    <li><a href="#seccion1">Descripción General del Proyecto</a>
+      <ol>
+        <li><a href="#s1-1">Problema identificado</a></li>
+        <li><a href="#s1-2">Necesidad del cliente</a></li>
+        <li><a href="#s1-3">Objetivo de la aplicación web</a></li>
+        <li><a href="#s1-4">Contexto de la solución</a></li>
+      </ol>
+    </li>
+    <li><a href="#seccion2">Identificación de Usuarios</a></li>
+    <li><a href="#seccion3">Requisitos Funcionales</a>
+      <ol>
+        <li><a href="#s3-1">Módulo 1. Incorporación de datos de asistencia</a></li>
+        <li><a href="#s3-2">Módulo 2. Interpretación de la asistencia</a></li>
+        <li><a href="#s3-3">Módulo 3. Configuración</a></li>
+        <li><a href="#s3-4">Módulo 4. Visualización de indicadores</a></li>
+        <li><a href="#s3-5">Módulo 5. Cierre del periodo y reportes</a></li>
+        <li><a href="#s3-6">Módulo 6. Correcciones, seguridad y auditoría</a></li>
+        <li><a href="#s3-7">Módulo 7. Operaciones administrativas del periodo</a></li>
+        <li><a href="#s3-8">Resumen de los requisitos funcionales</a></li>
+      </ol>
+    </li>
+    <li><a href="#seccion4">Requisitos No Funcionales</a>
+      <ol>
+        <li><a href="#s4-1">Seguridad</a></li>
+        <li><a href="#s4-2">Usabilidad</a></li>
+        <li><a href="#s4-3">Accesibilidad</a></li>
+        <li><a href="#s4-4">Rendimiento</a></li>
+        <li><a href="#s4-5">Compatibilidad</a></li>
+        <li><a href="#s4-6">Disponibilidad</a></li>
+        <li><a href="#s4-7">Otros atributos de calidad</a></li>
+      </ol>
+    </li>
+    <li><a href="#seccion5">Alcance Inicial del Proyecto</a>
+      <ol>
+        <li><a href="#s5-1">Funcionalidades incluidas</a></li>
+        <li><a href="#s5-2">Funcionalidades excluidas de esta versión</a></li>
+        <li><a href="#s5-3">Funcionalidades previstas para versiones posteriores</a></li>
+      </ol>
+    </li>
+  </ol>
+
+  <ul>
+    <li><a href="#anexoA">Anexo A. Trazabilidad con la Reunión del Cliente</a></li>
+    <li><a href="#anexoB">Anexo B. Aspectos Pendientes de Confirmación</a></li>
+    <li><a href="#referencias">Referencias</a></li>
+  </ul>
+
+  <h2 id="indice-tablas">Índice de tablas</h2>
+  <ol>
+    <li><a href="#tabla1">Información general del documento</a></li>
+    <li><a href="#tabla2">Tipos de usuario de la aplicación web</a></li>
+    <li><a href="#tabla3">Requisitos funcionales del módulo de incorporación de datos</a></li>
+    <li><a href="#tabla4">Requisitos funcionales del módulo de interpretación de la asistencia</a></li>
+    <li><a href="#tabla5">Requisitos funcionales del módulo de configuración</a></li>
+    <li><a href="#tabla6">Requisitos funcionales del módulo de visualización de indicadores</a></li>
+    <li><a href="#tabla7">Requisitos funcionales del módulo de cierre y reportes</a></li>
+    <li><a href="#tabla8">Requisitos funcionales del módulo de correcciones, seguridad y auditoría</a></li>
+    <li><a href="#tabla9">Requisitos funcionales del módulo de operaciones administrativas</a></li>
+    <li><a href="#tabla10">Resumen de los requisitos funcionales por prioridad</a></li>
+    <li><a href="#tabla11">Requisitos no funcionales de seguridad</a></li>
+    <li><a href="#tabla12">Requisitos no funcionales de usabilidad</a></li>
+    <li><a href="#tabla13">Requisitos no funcionales de accesibilidad</a></li>
+    <li><a href="#tabla14">Requisitos no funcionales de rendimiento</a></li>
+    <li><a href="#tabla15">Requisitos no funcionales de compatibilidad</a></li>
+    <li><a href="#tabla16">Requisitos no funcionales de disponibilidad</a></li>
+    <li><a href="#tabla17">Otros atributos de calidad considerados</a></li>
+    <li><a href="#tabla18">Funcionalidades incluidas en la primera versión</a></li>
+    <li><a href="#tabla19">Funcionalidades excluidas de la primera versión</a></li>
+    <li><a href="#tabla20">Funcionalidades previstas para versiones posteriores</a></li>
+    <li><a href="#tabla21">Trazabilidad entre las necesidades del cliente y los requisitos</a></li>
+  </ol>
+
+  <h2 id="indice-figuras">Índice de figuras</h2>
+  <ol>
+    <li><a href="#figura1">Diagrama de contexto de la aplicación web</a></li>
+  </ol>
+</nav>
+
+<hr>
+
+<!-- ============================================================
+     CUERPO DEL DOCUMENTO
+     ============================================================ -->
+<main>
+
+  <!-- ---------- TABLA 1 ---------- -->
+  <table border="1" id="tabla1">
+    <caption>Tabla 1. Información general del documento</caption>
+    <thead>
+      <tr>
+        <th scope="col">Campo</th>
+        <th scope="col">Detalle</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Proyecto</th>
+        <td>Dashboard de Nómina para NETTPLUS</td>
+      </tr>
+      <tr>
+        <th scope="row">Asignatura</th>
+        <td>Ingeniería Web</td>
+      </tr>
+      <tr>
+        <th scope="row">Documento</th>
+        <td>Especificación de requisitos funcionales y no funcionales</td>
+      </tr>
+      <tr>
+        <th scope="row">Cliente</th>
+        <td>NETTPLUS — Área de Talento Humano</td>
+      </tr>
+      <tr>
+        <th scope="row">Fuente de los requisitos</th>
+        <td>
+          Reunión de levantamiento con el cliente del 14 de octubre de 2026
+          y revisión de los reportes que produce la plataforma de asistencia
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">Autor</th>
+        <td>Josué Quinche</td>
+      </tr>
+      <tr>
+        <th scope="row">Versión y fecha</th>
+        <td>1.0 — <time datetime="2026-10-18">18 de octubre de 2026</time></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <!-- ============================================================
+       1. DESCRIPCIÓN GENERAL DEL PROYECTO
+       ============================================================ -->
+  <section id="seccion1">
+    <h2>1. Descripción General del Proyecto</h2>
+
+    <section id="s1-1">
+      <h3>1.1. Problema identificado</h3>
+      <p>
+        NETTPLUS registra la asistencia de su personal en una plataforma provista
+        por una empresa externa. La marcación se realiza con lectura biométrica
+        facial en el edificio matriz y, para quienes trabajan fuera de él, mediante
+        una aplicación móvil. En esa misma plataforma se administran los horarios
+        asignados a cada colaborador, incluidos horarios rotativos, por jornadas y
+        temporales, y se tramitan las solicitudes de permisos y de horas extra con
+        su flujo de aprobación.
+      </p>
+      <p>
+        El registro, por tanto, funciona. El problema aparece después. Durante la
+        reunión de levantamiento, el área de Talento Humano lo expresó con claridad:
+        la plataforma registra, pero no entrega un resumen de lo que ocurre. Para
+        cerrar cada periodo, el personal descarga varios reportes distintos, algunos
+        con una hoja por colaborador, y los consolida manualmente en hojas de cálculo
+        para responder preguntas elementales. Cuántas horas suplementarias y
+        extraordinarias se generaron. Quiénes llegaron atrasados. Quiénes estuvieron
+        de vacaciones. Qué novedades deben revisarse antes del pago.
+      </p>
+      <p>
+        El resultado de ese trabajo se entrega al área de Contabilidad, que vuelve a
+        digitarlo en su propio sistema. El procedimiento consume varias jornadas de
+        trabajo calificado cada mes, concentra el conocimiento del cálculo en una
+        sola persona y deja poco margen para detectar inconsistencias antes de que el
+        pago se haya realizado.
+      </p>
+    </section>
+
+    <section id="s1-2">
+      <h3>1.2. Necesidad del cliente</h3>
+      <p>
+        El cliente identificó tres frentes en los que requiere apoyo, y que ordenan
+        el propósito de la aplicación:
+      </p>
+      <ul>
+        <li>
+          El control diario de la asistencia, para saber el mismo día quién asistió,
+          quién llegó atrasado y qué marcaciones quedaron incompletas.
+        </li>
+        <li>
+          La retroalimentación al colaborador, que hoy no cuenta con información
+          sistematizada que la sustente.
+        </li>
+        <li>
+          La preparación del pago de la nómina, que depende de un consolidado mensual
+          que se arma a mano.
+        </li>
+      </ul>
+    </section>
+
+    <section id="s1-3">
+      <h3>1.3. Objetivo de la aplicación web</h3>
+      <p>
+        Desarrollar una aplicación web que incorpore los registros de asistencia que
+        produce la plataforma actual, los interprete aplicando las reglas de la
+        empresa y presente indicadores diarios y del periodo, además de generar el
+        reporte mensual que requiere el proceso de nómina, con el fin de reducir el
+        trabajo manual de consolidación y entregar información verificable para la
+        toma de decisiones.
+      </p>
+    </section>
+
+    <section id="s1-4">
+      <h3>1.4. Contexto de la solución</h3>
+      <p>
+        La aplicación no reemplaza a la plataforma de asistencia ni al sistema
+        contable. Se ubica entre ambos y cubre el espacio que hoy ocupan las hojas de
+        cálculo. Su relación con la fuente de datos es de lectura: no registra
+        marcaciones, no aprueba solicitudes y no modifica ningún dato en el sistema de
+        origen.
+      </p>
+
+      <figure id="figura1">
+        <img src="img/figura1-diagrama-contexto.png"
+             alt="Diagrama de contexto: la plataforma de asistencia entrega reportes a la aplicación web, que produce indicadores para Talento Humano y Gerencia y un consolidado para Contabilidad"
+             width="500">
+        <figcaption>
+          Figura 1. Diagrama de contexto de la aplicación web.
+          <small>
+            Nota. La aplicación consume los reportes de la plataforma de asistencia,
+            entrega indicadores a Talento Humano y Gerencia, y produce el consolidado
+            que utiliza Contabilidad.
+          </small>
+        </figcaption>
+      </figure>
+    </section>
+  </section>
+
+  <hr>
+
+  <!-- ============================================================
+       2. IDENTIFICACIÓN DE USUARIOS
+       ============================================================ -->
+  <section id="seccion2">
+    <h2>2. Identificación de Usuarios</h2>
+    <p>
+      Durante la reunión, el cliente precisó quiénes consultarían la información y
+      con qué alcance. Señaló además que los líderes de área no se contemplan todavía
+      como usuarios, y que la administración del sistema permanece en Talento Humano.
+      Esa decisión se respeta en esta versión y se registra en el apartado de
+      exclusiones.
+    </p>
+
+    <table border="1" id="tabla2">
+      <caption>Tabla 2. Tipos de usuario de la aplicación web</caption>
+      <thead>
+        <tr>
+          <th scope="col">Tipo de usuario</th>
+          <th scope="col">Descripción</th>
+          <th scope="col">Responsabilidades principales</th>
+          <th scope="col">Frecuencia</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Asistente de Talento Humano</th>
+          <td>Usuaria operativa. Es quien hoy ejecuta manualmente el proceso de consolidación.</td>
+          <td>
+            <ul>
+              <li>Cargar los reportes de asistencia.</li>
+              <li>Revisar las novedades del día.</li>
+              <li>Registrar las correcciones justificadas.</li>
+              <li>Ejecutar el cierre del periodo.</li>
+            </ul>
+          </td>
+          <td>Diaria</td>
+        </tr>
+        <tr>
+          <th scope="row">Jefatura de Talento Humano</th>
+          <td>Usuaria de análisis y configuración. Define las políticas de asistencia.</td>
+          <td>
+            <ul>
+              <li>Revisar los indicadores del periodo.</li>
+              <li>Administrar tolerancias, feriados y periodo de corte.</li>
+              <li>Generar las fichas de retroalimentación.</li>
+              <li>Validar los resultados del sistema.</li>
+            </ul>
+          </td>
+          <td>Semanal</td>
+        </tr>
+        <tr>
+          <th scope="row">Analista de Contabilidad</th>
+          <td>Usuaria de alcance restringido. Procesa la nómina con la información consolidada.</td>
+          <td>
+            <ul>
+              <li>Consultar y descargar el reporte del periodo cerrado.</li>
+              <li>Verificar la consistencia de los valores recibidos.</li>
+            </ul>
+          </td>
+          <td>Mensual</td>
+        </tr>
+        <tr>
+          <th scope="row">Gerencia</th>
+          <td>Usuaria de consulta. Utiliza información agregada para decisiones de gestión.</td>
+          <td>
+            <ul>
+              <li>Revisar indicadores de dotación, rotación y ausentismo por área.</li>
+              <li>Priorizar acciones sobre las áreas con mayor desviación.</li>
+            </ul>
+          </td>
+          <td>Mensual</td>
+        </tr>
+        <tr>
+          <th scope="row">Administrador del sistema</th>
+          <td>Perfil técnico responsable del funcionamiento de la aplicación.</td>
+          <td>
+            <ul>
+              <li>Gestionar usuarios y perfiles de acceso.</li>
+              <li>Configurar la conexión con la fuente de datos.</li>
+              <li>Consultar la bitácora de auditoría.</li>
+            </ul>
+          </td>
+          <td>Eventual</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      <small>
+        Nota. Los colaboradores de la empresa no son usuarios de esta aplicación.
+        Continúan registrando su marcación y tramitando sus solicitudes en la
+        plataforma de origen.
+      </small>
+    </p>
+  </section>
+
+  <hr>
+
+  <!-- ============================================================
+       3. REQUISITOS FUNCIONALES
+       ============================================================ -->
+  <section id="seccion3">
+    <h2>3. Requisitos Funcionales</h2>
+    <p>
+      Los requisitos funcionales describen lo que la aplicación debe permitir
+      realizar. Se presentan agrupados por módulo y numerados de forma correlativa.
+      La prioridad alta corresponde a los requisitos sin los cuales la aplicación no
+      resuelve el problema planteado por el cliente; la prioridad media identifica
+      funcionalidades que aportan valor y pueden posponerse si el plazo lo exige. En
+      el <a href="#anexoA">Anexo A</a> se muestra la correspondencia entre cada
+      necesidad expresada en la reunión y los requisitos que la atienden.
+    </p>
+
+    <!-- ---------- 3.1 ---------- -->
+    <section id="s3-1">
+      <h3>3.1. Módulo 1. Incorporación de datos de asistencia</h3>
+
+      <table border="1" id="tabla3">
+        <caption>Tabla 3. Requisitos funcionales del módulo de incorporación de datos</caption>
+        <thead>
+          <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripción del requisito</th>
+            <th scope="col">Usuario</th>
+            <th scope="col">Prioridad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">RF01</th>
+            <td>Cargar los reportes de marcaciones</td>
+            <td>El sistema deberá permitir que el usuario cargue, desde una pantalla web, los reportes de marcaciones exportados de la plataforma de asistencia, en formato de hoja de cálculo o de valores separados por comas, incluidos los archivos que contienen una hoja por colaborador.</td>
+            <td>Asistente de TH</td>
+            <td>Alta</td>
+          </tr>
+          <tr>
+            <th scope="row">RF02</th>
+            <td>Validar el archivo antes de confirmar la carga</td>
+            <td>El sistema deberá mostrar, antes de incorporar los datos, un informe que indique cuántos registros se aceptan, cuántos se rechazan y el motivo de cada rechazo con su número de fila, junto con una vista previa del contenido.</td>
+            <td>Asistente de TH</td>
+            <td>Alta</td>
+          </tr>
+          <tr>
+            <th scope="row">RF03</th>
+            <td>Evitar la duplicación de registros</td>
+            <td>El sistema deberá descartar los registros que ya existan al cargar nuevamente un mismo archivo, e informar cuántos fueron omitidos por esa razón.</td>
+            <td>Asistente de TH</td>
+            <td>Alta</td>
+          </tr>
+          <tr>
+            <th scope="row">RF04</th>
+            <td>Cargar los catálogos complementarios</td>
+            <td>El sistema deberá permitir la carga de los reportes de colaboradores, horarios asignados por día, permisos y horas extra, con el estado de aprobación de cada solicitud.</td>
+            <td>Asistente de TH</td>
+            <td>Alta</td>
+          </tr>
+          <tr>
+            <th scope="row">RF05</th>
+            <td>Sincronizar con la plataforma de origen</td>
+            <td>El sistema deberá permitir obtener los registros directamente desde la interfaz de programación de la plataforma de asistencia, sin intervención manual, cuando el proveedor habilite el acceso.</td>
+            <td>Administrador</td>
+            <td>Media</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ---------- 3.2 ---------- -->
+    <section id="s3-2">
+      <h3>3.2. Módulo 2. Interpretación de la asistencia</h3>
+
+      <table border="1" id="tabla4">
+        <caption>Tabla 4. Requisitos funcionales del módulo de interpretación de la asistencia</caption>
+        <thead>
+          <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripción del requisito</th>
+            <th scope="col">Usuario</th>
+            <th scope="col">Prioridad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">RF06</th>
+            <td>Conciliar los registros con el catálogo de colaboradores</td>
+            <td>El sistema deberá asociar cada marcación con el colaborador que le corresponde y listar aparte los registros cuyo identificador no exista en el catálogo.</td>
+            <td>Sistema</td>
+            <td>Alta</td>
+          </tr>
+          <tr>
+            <th scope="row">RF07</th>
+            <td>Construir la jornada diaria</td>
+            <td>El sistema deberá determinar, para cada colaborador y fecha, la hora de entrada, la hora de salida y el tiempo trabajado, tomando como referencia el horario que tenía asignado ese día.</td>
+            <td>Sistema</td>
+            <td>Alta</td>
+          </tr>
+          <tr>
+            <th scope="row">RF08</th>
+            <td>Consolidar los turnos que cruzan la medianoche</td>
+            <td>El sistema deberá unir en una sola jornada los turnos que la plataforma de origen registra divididos en dos tramos al cambiar de día, y atribuirla a la fecha en que inició el turno.</td>
+            <td>Sistema</td>
+            <td>Alta</td>
+          </tr>
+          <tr>
+            <th scope="row">RF09</th>
+            <td>Clasificar el comportamiento de la jornada</td>
+            <td>El sistema deberá asignar a cada jornada uno de los siguientes estados: asistencia puntual, atraso, salida anticipada, ausencia, marcación incompleta, descanso, feriado o permiso, indicando los minutos de desviación cuando corresponda.</td>
+            <td>Sistema</td>
+            <td>Alta</td>
+          </tr>
+          <tr>
+            <th scope="row">RF10</th>
+            <td>Calcular las horas suplementarias y extraordinarias</td>
+            <td>El sistema deberá calcular las horas trabajadas y separar las que exceden la jornada ordinaria, distinguiendo entre suplementarias y extraordinarias según el día y el tramo horario.</td>
+            <td>Sistema</td>
+            <td>Alta</td>
+          </tr>
+          <tr>
+            <th scope="row">RF11</th>
+            <td>Aplicar el estado de aprobación de las novedades</td>
+            <td>El sistema deberá computar únicamente los permisos y las horas extra que tengan aprobación registrada, y presentar las solicitudes pendientes en una lista aparte con su efecto potencial en horas.</td>
+            <td>Sistema</td>
+            <td>Alta</td>
+          </tr>
+          <tr>
+            <th scope="row">RF12</th>
+            <td>Contrastar las horas extra con las marcaciones</td>
+            <td>El sistema deberá señalar las horas extra autorizadas que no cuenten con marcación que las respalde y la permanencia fuera del horario que no cuente con autorización registrada.</td>
+            <td>Jefatura de TH</td>
+            <td>Media</td>
+          </tr>
+          <tr>
+            <th scope="row">RF13</th>
+            <td>Explicar el resultado de cada jornada</td>
+            <td>El sistema deberá mostrar, al consultar el detalle de una jornada, la regla aplicada y las marcaciones que originaron el resultado.</td>
+            <td>Asistente de TH</td>
+            <td>Alta</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ---------- 3.3 ---------- -->
+    <section id="s3-3">
+      <h3>3.3. Módulo 3. Configuración</h3>
+
+      <table border="1" id="tabla5">
+        <caption>Tabla 5. Requisitos funcionales del módulo de configuración</caption>
+        <thead>
+          <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripción del requisito</th>
+            <th scope="col">Usuario</th>
+            <th scope="col">Prioridad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">RF14</th>
+            <td>Administrar los parámetros de cálculo</td>
+            <td>El sistema deberá permitir modificar desde la interfaz las tolerancias de atraso y de salida anticipada, la duración de la jornada ordinaria, el calendario de feriados, los recargos y las fechas del periodo de corte, registrando la fecha de vigencia de cada cambio.</td>
+            <td>Jefatura de TH</td>
+            <td>Alta</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ---------- 3.4 ---------- -->
+    <section id="s3-4">
+      <h3>3.4. Módulo 4. Visualización de indicadores</h3>
+
+      <table border="1" id="tabla6">
+        <caption>Tabla 6. Requisitos funcionales del módulo de visualización de indicadores</caption>
+        <thead>
+          <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripción del requisito</th>
+            <th scope="col">Usuario</th>
+            <th scope="col">Prioridad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">RF15</th>
+            <td>Consultar la asistencia del día</td>
+            <td>El sistema deberá presentar en una sola pantalla, para la fecha seleccionada, el total de colaboradores esperados, los que asistieron, los que llegaron atrasados, los ausentes y las marcaciones incompletas, con el listado de las excepciones.</td>
+            <td>Asistente de TH</td>
+            <td>Alta</td>
+          </tr>
+          <tr>
+            <th scope="row">RF16</th>
+            <td>Consultar los indicadores del periodo</td>
+            <td>El sistema deberá presentar el porcentaje de puntualidad, los minutos de atraso acumulados, el ausentismo justificado y no justificado y las horas suplementarias y extraordinarias del periodo, con filtros por área, colaborador y rango de fechas.</td>
+            <td>Jefatura de TH</td>
+            <td>Alta</td>
+          </tr>
+          <tr>
+            <th scope="row">RF17</th>
+            <td>Consultar la dotación de personal y la rotación</td>
+            <td>El sistema deberá calcular el número de colaboradores activos, las incorporaciones, las desvinculaciones y el índice de rotación, de forma general y por área.</td>
+            <td>Jefatura de TH / Gerencia</td>
+            <td>Media</td>
+          </tr>
+          <tr>
+            <th scope="row">RF18</th>
+            <td>Generar la ficha de retroalimentación del colaborador</td>
+            <td>El sistema deberá generar un documento individual con la tendencia de atrasos, ausencias y horas extra del colaborador frente al periodo anterior, incluyendo el detalle de los días que sustentan cada cifra.</td>
+            <td>Jefatura de TH</td>
+            <td>Media</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ---------- 3.5 ---------- -->
+    <section id="s3-5">
+      <h3>3.5. Módulo 5. Cierre del periodo y reportes</h3>
+
+      <table border="1" id="tabla7">
+        <caption>Tabla 7. Requisitos funcionales del módulo de cierre y reportes</caption>
+        <thead>
+          <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripción del requisito</th>
+            <th scope="col">Usuario</th>
+            <th scope="col">Prioridad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">RF19</th>
+            <td>Cerrar el periodo con revisión previa de novedades</td>
+            <td>El sistema deberá enumerar, antes de permitir el cierre, las marcaciones incompletas, las jornadas sin marcación y las solicitudes pendientes de aprobación, cuantificando su efecto en horas, y deberá registrar la fecha y el usuario que ejecutó el cierre.</td>
+            <td>Asistente de TH</td>
+            <td>Alta</td>
+          </tr>
+          <tr>
+            <th scope="row">RF20</th>
+            <td>Generar el reporte mensual para nómina</td>
+            <td>El sistema deberá generar el consolidado del periodo por colaborador con los días laborados, las ausencias justificadas y no justificadas, los minutos de atraso y las horas suplementarias y extraordinarias, descargable en formato de hoja de cálculo y documento portátil.</td>
+            <td>Asistente de TH / Contabilidad</td>
+            <td>Alta</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ---------- 3.6 ---------- -->
+    <section id="s3-6">
+      <h3>3.6. Módulo 6. Correcciones, seguridad y auditoría</h3>
+
+      <table border="1" id="tabla8">
+        <caption>Tabla 8. Requisitos funcionales del módulo de correcciones, seguridad y auditoría</caption>
+        <thead>
+          <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripción del requisito</th>
+            <th scope="col">Usuario</th>
+            <th scope="col">Prioridad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">RF21</th>
+            <td>Corregir una jornada con justificación</td>
+            <td>El sistema deberá permitir que el usuario autorizado modifique una jornada registrando el motivo de la corrección, sin alterar la marcación original y conservando el valor anterior.</td>
+            <td>Asistente de TH</td>
+            <td>Alta</td>
+          </tr>
+          <tr>
+            <th scope="row">RF22</th>
+            <td>Controlar el acceso según el perfil del usuario</td>
+            <td>El sistema deberá exigir autenticación y limitar las pantallas y los datos visibles al perfil de cada usuario, de modo que Contabilidad y Gerencia accedan solo a la información que les corresponde.</td>
+            <td>Administrador</td>
+            <td>Alta</td>
+          </tr>
+          <tr>
+            <th scope="row">RF23</th>
+            <td>Consultar la bitácora de auditoría</td>
+            <td>El sistema deberá registrar y permitir consultar quién cargó cada archivo, quién corrigió qué jornada, quién cerró el periodo y quién descargó cada reporte, con la fecha y hora de cada operación.</td>
+            <td>Jefatura de TH / Administrador</td>
+            <td>Alta</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ---------- 3.7 ---------- -->
+    <section id="s3-7">
+      <h3>3.7. Módulo 7. Operaciones administrativas del periodo</h3>
+
+      <table border="1" id="tabla9">
+        <caption>Tabla 9. Requisitos funcionales del módulo de operaciones administrativas</caption>
+        <thead>
+          <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripción del requisito</th>
+            <th scope="col">Usuario</th>
+            <th scope="col">Prioridad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">RF24</th>
+            <td>Recalcular un periodo abierto</td>
+            <td>El sistema deberá permitir volver a procesar las jornadas de un periodo no cerrado cuando cambie un parámetro, se incorporen registros nuevos o se apruebe una novedad pendiente, conservando los ajustes manuales ya registrados.</td>
+            <td>Asistente de TH</td>
+            <td>Alta</td>
+          </tr>
+          <tr>
+            <th scope="row">RF25</th>
+            <td>Reabrir un periodo cerrado</td>
+            <td>El sistema deberá permitir reabrir un periodo cerrado dejando constancia del motivo y del usuario, e invalidar el reporte emitido antes de la reapertura.</td>
+            <td>Jefatura de TH</td>
+            <td>Media</td>
+          </tr>
+          <tr>
+            <th scope="row">RF26</th>
+            <td>Gestionar usuarios y perfiles de acceso</td>
+            <td>El sistema deberá permitir crear, modificar y desactivar usuarios, asignarles un perfil y, cuando corresponda, un área de alcance.</td>
+            <td>Administrador</td>
+            <td>Alta</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ---------- 3.8 ---------- -->
+    <section id="s3-8">
+      <h3>3.8. Resumen de los requisitos funcionales</h3>
+
+      <table border="1" id="tabla10">
+        <caption>Tabla 10. Resumen de los requisitos funcionales por prioridad</caption>
+        <thead>
+          <tr>
+            <th scope="col">Módulo</th>
+            <th scope="col">Requisitos</th>
+            <th scope="col">Alta</th>
+            <th scope="col">Media</th>
+            <th scope="col">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1. Incorporación de datos de asistencia</th>
+            <td>RF01 a RF05</td><td>4</td><td>1</td><td>5</td>
+          </tr>
+          <tr>
+            <th scope="row">2. Interpretación de la asistencia</th>
+            <td>RF06 a RF13</td><td>7</td><td>1</td><td>8</td>
+          </tr>
+          <tr>
+            <th scope="row">3. Configuración</th>
+            <td>RF14</td><td>1</td><td>0</td><td>1</td>
+          </tr>
+          <tr>
+            <th scope="row">4. Visualización de indicadores</th>
+            <td>RF15 a RF18</td><td>2</td><td>2</td><td>4</td>
+          </tr>
+          <tr>
+            <th scope="row">5. Cierre del periodo y reportes</th>
+            <td>RF19 y RF20</td><td>2</td><td>0</td><td>2</td>
+          </tr>
+          <tr>
+            <th scope="row">6. Correcciones, seguridad y auditoría</th>
+            <td>RF21 a RF23</td><td>3</td><td>0</td><td>3</td>
+          </tr>
+          <tr>
+            <th scope="row">7. Operaciones administrativas del periodo</th>
+            <td>RF24 a RF26</td><td>2</td><td>1</td><td>3</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th scope="row">Total</th>
+            <td>RF01 a RF26</td><td>21</td><td>5</td><td>26</td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <p>
+        <small>
+          Nota. Los veintiún requisitos de prioridad alta constituyen el producto
+          mínimo que resuelve la necesidad planteada por el cliente.
+        </small>
+      </p>
+    </section>
+  </section>
+
+  <hr>
+
+  <!-- ============================================================
+       4. REQUISITOS NO FUNCIONALES
+       ============================================================ -->
+  <section id="seccion4">
+    <h2>4. Requisitos No Funcionales</h2>
+    <p>
+      Los requisitos no funcionales establecen las condiciones que la aplicación debe
+      cumplir, con independencia de las funciones que ejecute. Se organizan según los
+      aspectos solicitados y cada uno se acompaña del criterio con el que podrá
+      comprobarse. Esa última columna es deliberada: un requisito que no puede
+      verificarse no sirve para aceptar ni para rechazar un producto.
+    </p>
+
+    <!-- ---------- 4.1 ---------- -->
+    <section id="s4-1">
+      <h3>4.1. Seguridad</h3>
+
+      <table border="1" id="tabla11">
+        <caption>Tabla 11. Requisitos no funcionales de seguridad</caption>
+        <thead>
+          <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Enunciado</th>
+            <th scope="col">Criterio de verificación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">RNF01</th>
+            <td>El acceso a la aplicación exigirá autenticación con usuario y contraseña. Ninguna pantalla con datos de colaboradores será accesible sin sesión iniciada.</td>
+            <td>Intentar abrir cada dirección interna sin sesión y comprobar que el sistema redirige al inicio de sesión.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF02</th>
+            <td>Las contraseñas se almacenarán cifradas mediante funciones de resumen criptográfico. En ningún caso se guardarán ni se mostrarán en texto plano.</td>
+            <td>Revisar la tabla de usuarios y comprobar que ningún campo contiene la contraseña legible.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF03</th>
+            <td>Cada perfil accederá únicamente a las pantallas y a los datos de su alcance. Contabilidad verá solo el consolidado del periodo cerrado y Gerencia solo indicadores agregados, sin detalle individual.</td>
+            <td>Ejecutar pruebas de acceso con los cinco perfiles definidos y verificar que cada intento fuera de alcance es rechazado.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF04</th>
+            <td>La comunicación entre el navegador y el servidor se realizará cifrada mediante HTTPS, con verificación del certificado.</td>
+            <td>Comprobar que el acceso por HTTP redirige a HTTPS y que el certificado es válido.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF05</th>
+            <td>El sistema no almacenará datos biométricos de los colaboradores. Trabajará únicamente con el identificador del empleado y el instante de la marcación, conforme a la Ley Orgánica de Protección de Datos Personales.</td>
+            <td>Revisar el modelo de datos y confirmar la ausencia de campos biométricos; verificar que los datos de demostración están anonimizados.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF06</th>
+            <td>Toda operación sensible quedará registrada en una bitácora no editable desde la aplicación, con usuario, fecha y detalle.</td>
+            <td>Ejecutar una carga, una corrección y un cierre, y comprobar que los tres asientos aparecen en la bitácora.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ---------- 4.2 ---------- -->
+    <section id="s4-2">
+      <h3>4.2. Usabilidad</h3>
+
+      <table border="1" id="tabla12">
+        <caption>Tabla 12. Requisitos no funcionales de usabilidad</caption>
+        <thead>
+          <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Enunciado</th>
+            <th scope="col">Criterio de verificación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">RNF07</th>
+            <td>Una persona del área de Talento Humano completará el flujo de cargar un archivo, revisar el resultado y descargar el reporte en menos de diez minutos, sin capacitación previa.</td>
+            <td>Prueba con una usuaria real del área, midiendo el tiempo de ejecución del flujo completo.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF08</th>
+            <td>Los mensajes de error indicarán qué se rechazó, dónde está el problema y qué debe hacerse para corregirlo, en lenguaje del negocio y sin términos técnicos.</td>
+            <td>Cargar un archivo con errores deliberados y revisar que cada mensaje cumple las tres condiciones.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF09</th>
+            <td>La interfaz utilizará los colores corporativos de NETTPLUS y mantendrá la misma estructura de navegación en todas las pantallas.</td>
+            <td>Revisión visual contra el manual de identidad que entregue la empresa.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF10</th>
+            <td>Las operaciones que no pueden deshacerse, como el cierre del periodo, solicitarán confirmación explícita indicando sus consecuencias.</td>
+            <td>Verificar que cada operación irreversible presenta un cuadro de confirmación antes de ejecutarse.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ---------- 4.3 ---------- -->
+    <section id="s4-3">
+      <h3>4.3. Accesibilidad</h3>
+
+      <table border="1" id="tabla13">
+        <caption>Tabla 13. Requisitos no funcionales de accesibilidad</caption>
+        <thead>
+          <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Enunciado</th>
+            <th scope="col">Criterio de verificación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">RNF11</th>
+            <td>La aplicación cumplirá el nivel AA de las Pautas de Accesibilidad para el Contenido Web (WCAG 2.1) en sus pantallas principales.</td>
+            <td>Auditoría con una herramienta automática de accesibilidad y revisión manual de los puntos que esta no cubre.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF12</th>
+            <td>El contraste entre el texto y su fondo será de al menos 4,5:1 para texto normal y 3:1 para texto grande y elementos de interfaz.</td>
+            <td>Medición del contraste de la paleta corporativa con un verificador de contraste.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF13</th>
+            <td>Toda la aplicación podrá operarse con teclado, con un orden de tabulación coherente y foco visible en el elemento activo.</td>
+            <td>Recorrer el flujo completo sin usar el ratón.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF14</th>
+            <td>La información no se transmitirá únicamente mediante color. Los estados de la jornada se acompañarán de texto o de un icono con descripción alternativa.</td>
+            <td>Revisar el tablero en escala de grises y comprobar que los estados siguen siendo distinguibles.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF15</th>
+            <td>Los campos de formulario tendrán etiquetas asociadas y las imágenes y gráficos contarán con texto alternativo que describa su contenido.</td>
+            <td>Inspección del marcado y lectura de una pantalla con un lector de pantalla.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ---------- 4.4 ---------- -->
+    <section id="s4-4">
+      <h3>4.4. Rendimiento</h3>
+
+      <table border="1" id="tabla14">
+        <caption>Tabla 14. Requisitos no funcionales de rendimiento</caption>
+        <thead>
+          <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Enunciado</th>
+            <th scope="col">Criterio de verificación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">RNF16</th>
+            <td>El procesamiento completo de un periodo mensual no superará los treinta segundos en el entorno de despliegue previsto.</td>
+            <td>Medición del tiempo de procesamiento con el volumen real de un mes.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF17</th>
+            <td>Las pantallas del tablero se presentarán en menos de tres segundos con el volumen de datos de un año.</td>
+            <td>Medición del tiempo de respuesta con la base cargada con doce periodos.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF18</th>
+            <td>La carga y validación de un archivo de un periodo no superará los quince segundos antes de mostrar la vista previa.</td>
+            <td>Medición con el archivo de mayor tamaño que entregue la empresa.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF19</th>
+            <td>El sistema operará con los recursos de un servidor de gama media, sin requerir infraestructura especializada.</td>
+            <td>Monitoreo del consumo de memoria y procesador durante el procesamiento de un periodo.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ---------- 4.5 ---------- -->
+    <section id="s4-5">
+      <h3>4.5. Compatibilidad</h3>
+
+      <table border="1" id="tabla15">
+        <caption>Tabla 15. Requisitos no funcionales de compatibilidad</caption>
+        <thead>
+          <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Enunciado</th>
+            <th scope="col">Criterio de verificación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">RNF20</th>
+            <td>La aplicación funcionará en las versiones vigentes de Google Chrome, Microsoft Edge y Mozilla Firefox.</td>
+            <td>Ejecución del flujo principal en los tres navegadores.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF21</th>
+            <td>La interfaz se adaptará a anchos de 360, 768 y 1280 píxeles sin desplazamiento horizontal de la página.</td>
+            <td>Revisión en los tres anchos de referencia.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF22</th>
+            <td>Los reportes se generarán en formatos abiertos y de uso común, compatibles con las herramientas que ya utiliza el área de Contabilidad.</td>
+            <td>Apertura de los archivos generados en la herramienta que indique Contabilidad.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF23</th>
+            <td>La incorporación de una nueva fuente de datos se realizará mediante un componente independiente, sin modificar la lógica de cálculo ni la interfaz.</td>
+            <td>Sustituir la fuente de archivos por una fuente simulada y comprobar que el resto del sistema no requiere cambios.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ---------- 4.6 ---------- -->
+    <section id="s4-6">
+      <h3>4.6. Disponibilidad</h3>
+
+      <table border="1" id="tabla16">
+        <caption>Tabla 16. Requisitos no funcionales de disponibilidad</caption>
+        <thead>
+          <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Enunciado</th>
+            <th scope="col">Criterio de verificación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">RNF24</th>
+            <td>La aplicación estará disponible durante el horario laboral de la empresa, con una disponibilidad mensual no inferior al 99 % en días hábiles.</td>
+            <td>Registro de interrupciones durante el periodo de prueba.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF25</th>
+            <td>Una importación se aplicará completa o no se aplicará. Un archivo con errores no dejará datos parcialmente cargados.</td>
+            <td>Cargar deliberadamente un archivo corrupto y verificar que el estado previo de los datos se conserva.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF26</th>
+            <td>La base de datos contará con respaldo automático diario y con un procedimiento de restauración probado.</td>
+            <td>Ejecutar una restauración sobre un entorno limpio y verificar la integridad de los datos.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF27</th>
+            <td>La indisponibilidad temporal de la plataforma de asistencia no impedirá consultar la información ya incorporada.</td>
+            <td>Simular la caída de la fuente y comprobar que el tablero y los reportes siguen operativos.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ---------- 4.7 ---------- -->
+    <section id="s4-7">
+      <h3>4.7. Otros atributos de calidad</h3>
+
+      <table border="1" id="tabla17">
+        <caption>Tabla 17. Otros atributos de calidad considerados</caption>
+        <thead>
+          <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Enunciado</th>
+            <th scope="col">Criterio de verificación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">RNF28</th>
+            <td>Las reglas de cálculo se modificarán desde la interfaz de configuración, sin intervención en el código ni nuevo despliegue.</td>
+            <td>Cambiar una tolerancia y recalcular un periodo abierto sin desplegar nuevamente.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF29</th>
+            <td>La lógica de cálculo contará con pruebas automatizadas que cubran al menos el 80 % de sus líneas, incluidos los casos límite identificados.</td>
+            <td>Informe de cobertura generado por la herramienta de pruebas.</td>
+          </tr>
+          <tr>
+            <th scope="row">RNF30</th>
+            <td>El sistema completo se instalará mediante contenedores con un solo comando, en Windows, Linux y macOS.</td>
+            <td>Despliegue en un entorno limpio de cada sistema operativo.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </section>
+
+  <hr>
+
+  <!-- ============================================================
+       5. ALCANCE INICIAL DEL PROYECTO
+       ============================================================ -->
+  <section id="seccion5">
+    <h2>5. Alcance Inicial del Proyecto</h2>
+    <p>
+      El alcance de esta primera versión se delimita a partir de lo que el cliente
+      señaló como prioritario y de lo que resulta alcanzable en el plazo disponible.
+      Dejar explícito lo que no se hará es tan importante como enumerar lo que sí,
+      porque evita expectativas que el proyecto no podrá satisfacer.
+    </p>
+
+    <!-- ---------- 5.1 ---------- -->
+    <section id="s5-1">
+      <h3>5.1. Funcionalidades incluidas</h3>
+
+      <table border="1" id="tabla18">
+        <caption>Tabla 18. Funcionalidades incluidas en la primera versión</caption>
+        <thead>
+          <tr>
+            <th scope="col">Funcionalidad incluida</th>
+            <th scope="col">Requisitos asociados</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Carga de los reportes de marcaciones, horarios, permisos y horas extra, con validación previa e informe de calidad.</td>
+            <td>RF01 a RF04</td>
+          </tr>
+          <tr>
+            <td>Interpretación automática de las marcaciones según el horario asignado, con soporte de turnos rotativos y nocturnos.</td>
+            <td>RF06 a RF09</td>
+          </tr>
+          <tr>
+            <td>Cálculo de horas trabajadas, suplementarias y extraordinarias, considerando el estado de aprobación de las novedades.</td>
+            <td>RF10, RF11</td>
+          </tr>
+          <tr>
+            <td>Verificación cruzada entre horas extra autorizadas y marcaciones registradas.</td>
+            <td>RF12</td>
+          </tr>
+          <tr>
+            <td>Trazabilidad de cada resultado hasta las marcaciones que lo originaron.</td>
+            <td>RF13</td>
+          </tr>
+          <tr>
+            <td>Configuración de tolerancias, feriados, recargos y periodo de corte desde la interfaz.</td>
+            <td>RF14</td>
+          </tr>
+          <tr>
+            <td>Tablero con la asistencia del día y con los indicadores del periodo, filtrables por área y colaborador.</td>
+            <td>RF15, RF16</td>
+          </tr>
+          <tr>
+            <td>Indicadores de dotación de personal y rotación por área, sujetos a la disponibilidad de las fechas de ingreso y salida.</td>
+            <td>RF17</td>
+          </tr>
+          <tr>
+            <td>Ficha de retroalimentación individual del colaborador.</td>
+            <td>RF18</td>
+          </tr>
+          <tr>
+            <td>Cierre del periodo con revisión previa de novedades pendientes.</td>
+            <td>RF19</td>
+          </tr>
+          <tr>
+            <td>Generación del reporte mensual de nómina en hoja de cálculo y documento portátil.</td>
+            <td>RF20</td>
+          </tr>
+          <tr>
+            <td>Corrección justificada de jornadas sin alterar el registro original.</td>
+            <td>RF21</td>
+          </tr>
+          <tr>
+            <td>Autenticación, perfiles de acceso diferenciados y bitácora de auditoría.</td>
+            <td>RF22, RF23, RF26</td>
+          </tr>
+          <tr>
+            <td>Recálculo de un periodo abierto y reapertura justificada de un periodo cerrado.</td>
+            <td>RF24, RF25</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ---------- 5.2 ---------- -->
+    <section id="s5-2">
+      <h3>5.2. Funcionalidades excluidas de esta versión</h3>
+
+      <table border="1" id="tabla19">
+        <caption>Tabla 19. Funcionalidades excluidas de la primera versión</caption>
+        <thead>
+          <tr>
+            <th scope="col">Funcionalidad excluida</th>
+            <th scope="col">Motivo de la exclusión</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Registro de marcaciones</th>
+            <td>El colaborador continúa marcando en el dispositivo biométrico o en la aplicación móvil existente. La aplicación solo lee lo registrado.</td>
+          </tr>
+          <tr>
+            <th scope="row">Aprobación de permisos y de horas extra</th>
+            <td>El flujo permanece en la plataforma de origen. La aplicación únicamente lee el estado de cada solicitud.</td>
+          </tr>
+          <tr>
+            <th scope="row">Cálculo de valores monetarios de la nómina</th>
+            <td>Sueldos, aportes, beneficios de ley y retenciones corresponden al área de Contabilidad y a su propio sistema.</td>
+          </tr>
+          <tr>
+            <th scope="row">Acceso de los líderes de área al tablero</th>
+            <td>El cliente indicó expresamente que por ahora la consulta permanece en Talento Humano.</td>
+          </tr>
+          <tr>
+            <th scope="row">Consulta del colaborador sobre sus propias marcaciones</th>
+            <td>Esa funcionalidad ya existe en la plataforma de origen y duplicarla no aporta valor.</td>
+          </tr>
+          <tr>
+            <th scope="row">Integración automática con el sistema contable</th>
+            <td>La entrega se realiza mediante un archivo exportable. La integración directa exige una definición técnica que todavía no existe.</td>
+          </tr>
+          <tr>
+            <th scope="row">Tratamiento de datos biométricos</th>
+            <td>No son necesarios para el cálculo y su manejo incrementaría el riesgo en materia de protección de datos personales.</td>
+          </tr>
+          <tr>
+            <th scope="row">Aplicación móvil nativa</th>
+            <td>La aplicación se consume desde el navegador con diseño adaptable, lo que cubre la consulta desde dispositivos móviles.</td>
+          </tr>
+          <tr>
+            <th scope="row">Notificaciones automáticas por correo electrónico</th>
+            <td>No fue planteada como necesidad en la reunión y añade complejidad de configuración.</td>
+          </tr>
+          <tr>
+            <th scope="row">Modificación de la configuración de la plataforma de asistencia</th>
+            <td>El sistema de origen es administrado por un proveedor externo y queda fuera del control del proyecto.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ---------- 5.3 ---------- -->
+    <section id="s5-3">
+      <h3>5.3. Funcionalidades previstas para versiones posteriores</h3>
+      <p>
+        Las siguientes funcionalidades no forman parte de esta entrega, pero el diseño
+        las contempla para que su incorporación no obligue a rehacer lo construido.
+      </p>
+
+      <table border="1" id="tabla20">
+        <caption>Tabla 20. Funcionalidades previstas para versiones posteriores</caption>
+        <thead>
+          <tr>
+            <th scope="col">Funcionalidad</th>
+            <th scope="col">Condición para incorporarla</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Sincronización automática con la plataforma de asistencia mediante su interfaz de programación (RF05).</td>
+            <td>Que el proveedor externo habilite un acceso de solo lectura. El componente queda implementado y probado contra un servicio simulado.</td>
+          </tr>
+          <tr>
+            <td>Acceso de los líderes de área con visibilidad restringida a su equipo.</td>
+            <td>Que el cliente decida ampliar el alcance de consulta.</td>
+          </tr>
+          <tr>
+            <td>Integración directa con el sistema contable.</td>
+            <td>Que Contabilidad defina la interfaz técnica de su sistema.</td>
+          </tr>
+          <tr>
+            <td>Alertas sobre atrasos recurrentes y novedades pendientes.</td>
+            <td>Que el cliente priorice la funcionalidad frente a otras pendientes.</td>
+          </tr>
+          <tr>
+            <td>Resumen en lenguaje natural de las variaciones del periodo.</td>
+            <td>Se evalúa como mejora opcional. El cálculo debe permanecer determinista y auditable, por lo que esa capa no intervendría en los resultados.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </section>
+
+  <hr>
+
+  <!-- ============================================================
+       ANEXO A
+       ============================================================ -->
+  <section id="anexoA">
+    <h2>Anexo A. Trazabilidad con la Reunión del Cliente</h2>
+    <p>
+      La siguiente tabla vincula cada necesidad expresada durante la reunión del
+      <time datetime="2026-10-14">14 de octubre de 2026</time> con los requisitos que
+      la atienden. Su propósito es evidenciar que la especificación responde a lo que
+      el cliente planteó y no a funcionalidades añadidas por criterio del equipo de
+      desarrollo.
+    </p>
+
+    <table border="1" id="tabla21">
+      <caption>Tabla 21. Trazabilidad entre las necesidades del cliente y los requisitos</caption>
+      <thead>
+        <tr>
+          <th scope="col">Necesidad expresada por el cliente</th>
+          <th scope="col">Fuente</th>
+          <th scope="col">Requisitos que la atienden</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>La plataforma registra las marcaciones pero no entrega un resumen de lo que ocurre.</td>
+          <td>Talento Humano</td>
+          <td>RF07, RF09, RF15, RF16</td>
+        </tr>
+        <tr>
+          <td>Saber cuántas horas suplementarias y extraordinarias se generaron.</td>
+          <td>Talento Humano</td>
+          <td>RF10, RF16</td>
+        </tr>
+        <tr>
+          <td>Saber cuántas personas llegan atrasadas.</td>
+          <td>Talento Humano</td>
+          <td>RF09, RF15, RF16</td>
+        </tr>
+        <tr>
+          <td>Saber quiénes salieron de vacaciones y distinguir el ausentismo aprobado del no aprobado.</td>
+          <td>Talento Humano</td>
+          <td>RF11, RF16</td>
+        </tr>
+        <tr>
+          <td>Cubrir tres frentes: control diario, retroalimentación al colaborador y pago de la nómina.</td>
+          <td>Talento Humano</td>
+          <td>RF15, RF18, RF20</td>
+        </tr>
+        <tr>
+          <td>La solución necesitaría conectarse al servicio para mantener la información actualizada.</td>
+          <td>Talento Humano</td>
+          <td>RF05, RNF23</td>
+        </tr>
+        <tr>
+          <td>El personal de la matriz marca en el biométrico y el que está fuera lo hace por la aplicación móvil.</td>
+          <td>Talento Humano</td>
+          <td>RF01, RF04 (la fuente es la plataforma, no los dispositivos)</td>
+        </tr>
+        <tr>
+          <td>Los permisos y las horas extra aprobados se toman en cuenta; los pendientes no.</td>
+          <td>Talento Humano</td>
+          <td>RF11, RF12</td>
+        </tr>
+        <tr>
+          <td>Existen horarios rotativos, por jornadas y temporales, y las marcaciones deben ser coherentes con ellos.</td>
+          <td>Talento Humano</td>
+          <td>RF07, RF08, RF14</td>
+        </tr>
+        <tr>
+          <td>Se manejan cortes mensuales para el procesamiento de la nómina.</td>
+          <td>Talento Humano</td>
+          <td>RF14, RF19, RF20</td>
+        </tr>
+        <tr>
+          <td>Contabilidad vuelve a digitar manualmente el reporte que recibe.</td>
+          <td>Talento Humano</td>
+          <td>RF20, RNF22</td>
+        </tr>
+        <tr>
+          <td>Los roles que verían el reporte son el analista de Talento Humano, Contabilidad y Gerencia.</td>
+          <td>Talento Humano</td>
+          <td>RF22, RNF03</td>
+        </tr>
+        <tr>
+          <td>Interesa conocer la dotación de personal por área y el índice de rotación.</td>
+          <td>Talento Humano</td>
+          <td>RF17</td>
+        </tr>
+        <tr>
+          <td>La aplicación debe usar los colores corporativos de la empresa.</td>
+          <td>Talento Humano</td>
+          <td>RNF09</td>
+        </tr>
+        <tr>
+          <td>Al crear un usuario se le asigna un identificador y se valida con la cédula.</td>
+          <td>Asistente de Talento Humano</td>
+          <td>RF22</td>
+        </tr>
+        <tr>
+          <td>Los líderes de área no se contemplan todavía como usuarios del tablero.</td>
+          <td>Talento Humano</td>
+          <td>Fuera del alcance (<a href="#s5-2">sección 5.2</a>)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      <small>
+        Nota. Las necesidades se recogieron de la reunión de levantamiento y de la
+        demostración del sistema actual realizada por el área de Talento Humano.
+      </small>
+    </p>
+  </section>
+
+  <hr>
+
+  <!-- ============================================================
+       ANEXO B
+       ============================================================ -->
+  <section id="anexoB">
+    <h2>Anexo B. Aspectos Pendientes de Confirmación</h2>
+    <p>
+      Los siguientes puntos quedaron sin definir al cierre de la reunión. Se registran
+      de forma explícita porque condicionan la implementación de los requisitos
+      señalados, y su confirmación se gestiona con el cliente antes de iniciar la
+      construcción.
+    </p>
+
+    <ol>
+      <li>Los valores de tolerancia de atraso y de salida anticipada, y el umbral a partir del cual un atraso se considera falta (afecta a RF09 y RF14).</li>
+      <li>Las fechas exactas de inicio y cierre del periodo de corte mensual (afecta a RF14, RF19 y RF20).</li>
+      <li>La política de cálculo de horas suplementarias y extraordinarias, con sus recargos (afecta a RF10).</li>
+      <li>El tratamiento de las marcaciones faltantes, duplicadas o impares en el procedimiento actual del área (afecta a RF09 y RF21).</li>
+      <li>La estructura exacta del archivo que requiere el área de Contabilidad (afecta a RF20).</li>
+      <li>La disponibilidad de las fechas de ingreso y salida de los colaboradores en los reportes exportados (afecta a RF17).</li>
+      <li>La entrega de archivos de muestra de cada tipo de reporte y de un periodo calculado manualmente para contrastar los resultados.</li>
+      <li>La habilitación, por parte del proveedor externo, del acceso a la interfaz de programación de la plataforma de asistencia (afecta a RF05).</li>
+    </ol>
+  </section>
+
+  <hr>
+
+  <!-- ============================================================
+       REFERENCIAS
+       ============================================================ -->
+  <section id="referencias">
+    <h2>Referencias</h2>
+    <ul>
+      <li>
+        Asamblea Nacional del Ecuador. (2021).
+        <cite>Ley Orgánica de Protección de Datos Personales</cite>
+        (Registro Oficial Suplemento 459). Quito, Ecuador.
+      </li>
+      <li>
+        Congreso Nacional del Ecuador. (2005).
+        <cite>Código del Trabajo</cite>
+        (Registro Oficial Suplemento 167). Quito, Ecuador.
+      </li>
+      <li>
+        Institute of Electrical and Electronics Engineers. (1998).
+        <cite>IEEE recommended practice for software requirements specifications</cite>
+        (IEEE Std 830-1998). IEEE.
+      </li>
+      <li>
+        International Organization for Standardization. (2011).
+        <cite>Systems and software engineering — Systems and software Quality
+        Requirements and Evaluation (SQuaRE) — System and software quality models</cite>
+        (ISO/IEC 25010:2011). ISO.
+      </li>
+      <li>
+        Pressman, R. S., &amp; Maxim, B. R. (2021).
+        <cite>Ingeniería del software: Un enfoque práctico</cite> (9.ª ed.). McGraw-Hill.
+      </li>
+      <li>
+        Sommerville, I. (2011).
+        <cite>Ingeniería de software</cite> (9.ª ed.). Pearson Educación.
+      </li>
+      <li>
+        World Wide Web Consortium. (2018).
+        <cite>Web Content Accessibility Guidelines (WCAG) 2.1</cite>.
+        W3C Recommendation.
+        <a href="https://www.w3.org/TR/WCAG21/">https://www.w3.org/TR/WCAG21/</a>
+      </li>
+    </ul>
+  </section>
+
+</main>
+
+<hr>
+
+<!-- ============================================================
+     PIE DE PÁGINA
+     ============================================================ -->
+<footer>
+  <h2>Datos del documento</h2>
+
+  <dl>
+    <dt>Documento</dt>
+    <dd>Especificación de requisitos funcionales y no funcionales</dd>
+
+    <dt>Proyecto</dt>
+    <dd>Dashboard de Nómina para NETTPLUS</dd>
+
+    <dt>Asignatura</dt>
+    <dd>Ingeniería Web — Carrera de Computación, UTPL</dd>
+
+    <dt>Autor</dt>
+    <dd>Josué Quinche</dd>
+
+    <dt>Versión</dt>
+    <dd>1.0 — <time datetime="2026-10-18">18 de octubre de 2026</time></dd>
+  </dl>
+
+  <p><a href="#indice">Volver al índice</a></p>
+
+  <p><small>&copy; 2026 — Documento académico, Universidad Técnica Particular de Loja</small></p>
+</footer>
+
+</body>
+</html>
