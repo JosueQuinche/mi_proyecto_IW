@@ -1,54 +1,39 @@
-# Constelación Interactiva ✨
+# ESTUDIANTE:
+ 1.- Josue Quinche
+# Práctica de HTML5 — Maquetado semántico
 
-Página web interactiva hecha con **HTML, CSS y JavaScript puro** (sin librerías).
-Muestra una constelación de partículas que se mueven, se conectan entre sí con líneas
-y reaccionan al mouse, a los clics y al teclado.
+Dos páginas construidas únicamente con etiquetas HTML5.
 
-## Funcionalidades
-
-- **Partículas animadas** que rebotan en los bordes y parpadean.
-- **Conexiones dinámicas**: las partículas cercanas se unen con líneas.
-- **Interacción con el mouse**: modo *Atraer* o *Repeler*.
-- **Clic = explosión**: onda expansiva que empuja las partículas y crea nuevas.
-- **Panel de controles**: cantidad de partículas, velocidad y distancia de conexión.
-- **4 paletas de colores**: Océano, Atardecer, Bosque y Neón.
-- **Contador de FPS** en tiempo real.
-- **Responsive**: funciona en celular con el dedo.
-
-## Atajos de teclado
-
-| Tecla      | Acción                    |
-|------------|---------------------------|
-| `Clic`     | Explosión                 |
-| `Espacio`  | Pausar / reanudar         |
-| `R`        | Reiniciar                 |
-| `H`        | Mostrar / ocultar panel   |
-
-## Estructura del proyecto
+## Archivos
 
 ```
-mi_proyecto_web/
-├── index.html        # Estructura de la página
-├── css/
-│   └── estilos.css   # Estilos, animaciones y diseño responsive
-├── js/
-│   └── script.js     # Lógica de partículas e interacción
-├── README.md
-└── .gitignore
+practica_html5/
+├── periodico/index.html            # Portada de periódico
+└── informe_requisitos/index.html   # Informe de requisitos
 ```
 
-## Cómo ejecutarlo
+## Etiquetas utilizadas
 
-1. Clona el repositorio:
-   ```bash
-   git clone <url-del-repositorio>
-   cd mi_proyecto_web
-   ```
-2. Abre `index.html` en tu navegador (doble clic).
-   También puedes usar la extensión **Live Server** de VS Code.
+**Estructura**
+`header` · `nav` · `main` · `section` · `article` · `aside` · `footer`
 
-## Tecnologías
+**Contenido**
+`h1` a `h4` · `p` · `ul` · `ol` · `li` · `dl` · `dt` · `dd` · `a` · `img` · `figure` · `figcaption` · `time` · `hr` · `strong` · `em` · `small` · `cite` · `address`
 
-- HTML5 (`<canvas>`)
-- CSS3 (variables, animaciones, `backdrop-filter`)
-- JavaScript (clases, `requestAnimationFrame`, eventos)
+**Tablas**
+`table` · `caption` · `thead` · `tbody` · `tfoot` · `tr` · `th` · `td`
+
+**Formularios**
+`form` · `fieldset` · `legend` · `label` · `input` · `select` · `option` · `button`
+
+## Puntos clave
+
+- `li` va siempre dentro de `ul` o `ol`.
+- Una lista anidada va **dentro** del `li` padre.
+- `caption` es el primer hijo de `table`.
+- `th scope="col"` para encabezado de columna, `scope="row"` para el de fila.
+- `label for="x"` debe coincidir con el `id` del campo.
+- `img` siempre lleva `alt`.
+- `time` lleva `datetime` con la fecha en formato `AAAA-MM-DD`.
+- `href="#id"` enlaza a un elemento de la misma página.
+- `href="pagina.html"` es un enlace relativo; los externos necesitan `https://`.
