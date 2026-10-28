@@ -6,25 +6,87 @@
   <meta name="author" content="Josué Quinche">
   <meta name="description" content="Especificación de requisitos funcionales y no funcionales del Dashboard de Nómina para NETTPLUS">
   <title>Especificación de Requisitos — Dashboard de Nómina NETTPLUS</title>
+  <link rel="stylesheet" href="css/estilos.css">
+  <script src="js/script.js" defer></script>
 </head>
 <body>
 
 <!-- ============================================================
+     FONDO ANIMADO
+     ============================================================ -->
+<div class="fondo" aria-hidden="true">
+  <span class="mancha mancha-1"></span>
+  <span class="mancha mancha-2"></span>
+  <span class="mancha mancha-3"></span>
+</div>
+
+<canvas class="lienzo" id="lienzo-fibra" aria-hidden="true"></canvas>
+
+<!-- ============================================================
      PORTADA
      ============================================================ -->
-<header>
-  <img src="img/images.jpg"
-       alt="Logo de la empresa NETTPLUS"
-       width="200">
-  <p>Universidad Técnica Particular de Loja</p>
-  <p>Carrera de Computación</p>
-  <p>Asignatura de Ingeniería Web</p>
+<div class="barra">
+  <div class="barra-interior">
+
+    <a class="barra-marca" href="#indice">NETT<span class="plus">plus</span></a>
+
+    <nav class="menu" aria-label="Secciones del informe">
+      <ul>
+        <li><a href="#seccion1">Proyecto</a></li>
+        <li><a href="#seccion2">Usuarios</a></li>
+        <li><a href="#seccion3">Funcionales</a></li>
+        <li><a href="#seccion4">No funcionales</a></li>
+        <li><a href="#seccion5">Alcance</a></li>
+        <li><a href="#seccion6">Tecnologías</a></li>
+        <li><a href="#seccion7">El plus</a></li>
+      </ul>
+    </nav>
+
+    <form class="barra-form" id="form-buscar" role="search">
+      <label class="oculto-visual" for="buscar">Buscar un requisito por código o por palabra</label>
+      <input type="search" id="buscar" name="buscar" autocomplete="off" placeholder="Buscar RF01, atraso, auditoría">
+      <ul class="resultados" id="resultados"></ul>
+    </form>
+
+    <a class="boton-prototipo" href="#seccion8">Prototipo</a>
+
+    <button type="button" class="boton-tema" id="boton-tema">Tema oscuro</button>
+
+  </div>
+</div>
+
+<header class="portada">
+  <img src="img/images.jpg" alt="Logotipo de la empresa NETTPLUS">
+
+  <p class="marca">NETT<span class="plus">plus</span></p>
+  <p class="lema">The power of fiber</p>
+
+  <div class="institucion">
+    <p>Universidad Técnica Particular de Loja</p>
+    <p>Carrera de Computación</p>
+    <p>Asignatura de Ingeniería Web</p>
+  </div>
 
   <h1>Especificación de Requisitos Funcionales y No Funcionales</h1>
-  <p><strong>Dashboard de Nómina para NETTPLUS</strong></p>
-  <p>
+  <p class="subtitulo">Dashboard de Nómina para NETTPLUS</p>
+
+  <p class="resumen">
     Aplicación web para la consolidación de marcaciones, el seguimiento
-    de indicadores de asistencia y la preparación del reporte de nómina
+    de indicadores de asistencia y la preparación del reporte de nómina.
+    Construida con React y Vite en el navegador, Django y Django REST Framework
+    en el servidor, PostgreSQL como base de datos y un motor de reglas
+    escrito en Python puro.
+  </p>
+
+  <ul class="cifras">
+    <li><strong id="cifra-rf">26</strong> <span>requisitos funcionales</span></li>
+    <li><strong id="cifra-rnf">30</strong> <span>requisitos no funcionales</span></li>
+    <li><strong>7</strong> <span>módulos</span></li>
+    <li><strong>5</strong> <span>perfiles de usuario</span></li>
+  </ul>
+
+  <p>
+    <a class="boton" href="https://www.figma.com/make/8qvbA9qrd4P1jdIL5RerFJ/Consola-de-N%C3%B3mina-NETTPLUS?p=f&amp;t=FRSyHX6tEkepqeAa-0" target="_blank" rel="noopener noreferrer">Ver el prototipo en Figma</a>
   </p>
 
   <p>
@@ -44,7 +106,7 @@
 <!-- ============================================================
      ÍNDICES
      ============================================================ -->
-<nav>
+<nav class="indices">
   <h2 id="indice">Índice de contenidos</h2>
   <ol>
     <li><a href="#seccion1">Descripción General del Proyecto</a>
@@ -86,6 +148,9 @@
         <li><a href="#s5-3">Funcionalidades previstas para versiones posteriores</a></li>
       </ol>
     </li>
+    <li><a href="#seccion6">Arquitectura y Tecnologías</a></li>
+    <li><a href="#seccion7">El Plus de la Solución</a></li>
+    <li><a href="#seccion8">Prototipo de la Interfaz</a></li>
   </ol>
 
   <ul>
@@ -117,6 +182,7 @@
     <li><a href="#tabla19">Funcionalidades excluidas de la primera versión</a></li>
     <li><a href="#tabla20">Funcionalidades previstas para versiones posteriores</a></li>
     <li><a href="#tabla21">Trazabilidad entre las necesidades del cliente y los requisitos</a></li>
+    <li><a href="#tabla22">Arquitectura tecnológica de la solución</a></li>
   </ol>
 
   <h2 id="indice-figuras">Índice de figuras</h2>
@@ -132,8 +198,8 @@
      ============================================================ -->
 <main>
 
-  <!-- ---------- TABLA 1 ---------- -->
-  <table border="1" id="tabla1">
+  <!-- ========== TABLA 1 ========== -->
+  <table id="tabla1">
     <caption>Tabla 1. Información general del documento</caption>
     <thead>
       <tr>
@@ -260,8 +326,7 @@
 
       <figure id="figura1">
         <img src="img/figura1-diagrama-contexto.png"
-             alt="Diagrama de contexto: la plataforma de asistencia entrega reportes a la aplicación web, que produce indicadores para Talento Humano y Gerencia y un consolidado para Contabilidad"
-             width="500">
+             alt="Diagrama de contexto: la plataforma de asistencia del proveedor externo entrega reportes a la aplicación web, que produce indicadores para Talento Humano y Gerencia y un consolidado para Contabilidad">
         <figcaption>
           Figura 1. Diagrama de contexto de la aplicación web.
           <small>
@@ -289,7 +354,7 @@
       exclusiones.
     </p>
 
-    <table border="1" id="tabla2">
+    <table id="tabla2">
       <caption>Tabla 2. Tipos de usuario de la aplicación web</caption>
       <thead>
         <tr>
@@ -389,11 +454,11 @@
       necesidad expresada en la reunión y los requisitos que la atienden.
     </p>
 
-    <!-- ---------- 3.1 ---------- -->
+    <!-- ========== 3.1 ========== -->
     <section id="s3-1">
       <h3>3.1. Módulo 1. Incorporación de datos de asistencia</h3>
 
-      <table border="1" id="tabla3">
+      <table id="tabla3">
         <caption>Tabla 3. Requisitos funcionales del módulo de incorporación de datos</caption>
         <thead>
           <tr>
@@ -444,11 +509,11 @@
       </table>
     </section>
 
-    <!-- ---------- 3.2 ---------- -->
+    <!-- ========== 3.2 ========== -->
     <section id="s3-2">
       <h3>3.2. Módulo 2. Interpretación de la asistencia</h3>
 
-      <table border="1" id="tabla4">
+      <table id="tabla4">
         <caption>Tabla 4. Requisitos funcionales del módulo de interpretación de la asistencia</caption>
         <thead>
           <tr>
@@ -520,11 +585,11 @@
       </table>
     </section>
 
-    <!-- ---------- 3.3 ---------- -->
+    <!-- ========== 3.3 ========== -->
     <section id="s3-3">
       <h3>3.3. Módulo 3. Configuración</h3>
 
-      <table border="1" id="tabla5">
+      <table id="tabla5">
         <caption>Tabla 5. Requisitos funcionales del módulo de configuración</caption>
         <thead>
           <tr>
@@ -547,11 +612,11 @@
       </table>
     </section>
 
-    <!-- ---------- 3.4 ---------- -->
+    <!-- ========== 3.4 ========== -->
     <section id="s3-4">
       <h3>3.4. Módulo 4. Visualización de indicadores</h3>
 
-      <table border="1" id="tabla6">
+      <table id="tabla6">
         <caption>Tabla 6. Requisitos funcionales del módulo de visualización de indicadores</caption>
         <thead>
           <tr>
@@ -595,11 +660,11 @@
       </table>
     </section>
 
-    <!-- ---------- 3.5 ---------- -->
+    <!-- ========== 3.5 ========== -->
     <section id="s3-5">
       <h3>3.5. Módulo 5. Cierre del periodo y reportes</h3>
 
-      <table border="1" id="tabla7">
+      <table id="tabla7">
         <caption>Tabla 7. Requisitos funcionales del módulo de cierre y reportes</caption>
         <thead>
           <tr>
@@ -629,11 +694,11 @@
       </table>
     </section>
 
-    <!-- ---------- 3.6 ---------- -->
+    <!-- ========== 3.6 ========== -->
     <section id="s3-6">
       <h3>3.6. Módulo 6. Correcciones, seguridad y auditoría</h3>
 
-      <table border="1" id="tabla8">
+      <table id="tabla8">
         <caption>Tabla 8. Requisitos funcionales del módulo de correcciones, seguridad y auditoría</caption>
         <thead>
           <tr>
@@ -670,11 +735,11 @@
       </table>
     </section>
 
-    <!-- ---------- 3.7 ---------- -->
+    <!-- ========== 3.7 ========== -->
     <section id="s3-7">
       <h3>3.7. Módulo 7. Operaciones administrativas del periodo</h3>
 
-      <table border="1" id="tabla9">
+      <table id="tabla9">
         <caption>Tabla 9. Requisitos funcionales del módulo de operaciones administrativas</caption>
         <thead>
           <tr>
@@ -711,11 +776,11 @@
       </table>
     </section>
 
-    <!-- ---------- 3.8 ---------- -->
+    <!-- ========== 3.8 ========== -->
     <section id="s3-8">
       <h3>3.8. Resumen de los requisitos funcionales</h3>
 
-      <table border="1" id="tabla10">
+      <table id="tabla10">
         <caption>Tabla 10. Resumen de los requisitos funcionales por prioridad</caption>
         <thead>
           <tr>
@@ -788,11 +853,11 @@
       verificarse no sirve para aceptar ni para rechazar un producto.
     </p>
 
-    <!-- ---------- 4.1 ---------- -->
+    <!-- ========== 4.1 ========== -->
     <section id="s4-1">
       <h3>4.1. Seguridad</h3>
 
-      <table border="1" id="tabla11">
+      <table id="tabla11">
         <caption>Tabla 11. Requisitos no funcionales de seguridad</caption>
         <thead>
           <tr>
@@ -836,11 +901,11 @@
       </table>
     </section>
 
-    <!-- ---------- 4.2 ---------- -->
+    <!-- ========== 4.2 ========== -->
     <section id="s4-2">
       <h3>4.2. Usabilidad</h3>
 
-      <table border="1" id="tabla12">
+      <table id="tabla12">
         <caption>Tabla 12. Requisitos no funcionales de usabilidad</caption>
         <thead>
           <tr>
@@ -874,11 +939,11 @@
       </table>
     </section>
 
-    <!-- ---------- 4.3 ---------- -->
+    <!-- ========== 4.3 ========== -->
     <section id="s4-3">
       <h3>4.3. Accesibilidad</h3>
 
-      <table border="1" id="tabla13">
+      <table id="tabla13">
         <caption>Tabla 13. Requisitos no funcionales de accesibilidad</caption>
         <thead>
           <tr>
@@ -917,11 +982,11 @@
       </table>
     </section>
 
-    <!-- ---------- 4.4 ---------- -->
+    <!-- ========== 4.4 ========== -->
     <section id="s4-4">
       <h3>4.4. Rendimiento</h3>
 
-      <table border="1" id="tabla14">
+      <table id="tabla14">
         <caption>Tabla 14. Requisitos no funcionales de rendimiento</caption>
         <thead>
           <tr>
@@ -955,11 +1020,11 @@
       </table>
     </section>
 
-    <!-- ---------- 4.5 ---------- -->
+    <!-- ========== 4.5 ========== -->
     <section id="s4-5">
       <h3>4.5. Compatibilidad</h3>
 
-      <table border="1" id="tabla15">
+      <table id="tabla15">
         <caption>Tabla 15. Requisitos no funcionales de compatibilidad</caption>
         <thead>
           <tr>
@@ -993,11 +1058,11 @@
       </table>
     </section>
 
-    <!-- ---------- 4.6 ---------- -->
+    <!-- ========== 4.6 ========== -->
     <section id="s4-6">
       <h3>4.6. Disponibilidad</h3>
 
-      <table border="1" id="tabla16">
+      <table id="tabla16">
         <caption>Tabla 16. Requisitos no funcionales de disponibilidad</caption>
         <thead>
           <tr>
@@ -1031,11 +1096,11 @@
       </table>
     </section>
 
-    <!-- ---------- 4.7 ---------- -->
+    <!-- ========== 4.7 ========== -->
     <section id="s4-7">
       <h3>4.7. Otros atributos de calidad</h3>
 
-      <table border="1" id="tabla17">
+      <table id="tabla17">
         <caption>Tabla 17. Otros atributos de calidad considerados</caption>
         <thead>
           <tr>
@@ -1079,11 +1144,11 @@
       porque evita expectativas que el proyecto no podrá satisfacer.
     </p>
 
-    <!-- ---------- 5.1 ---------- -->
+    <!-- ========== 5.1 ========== -->
     <section id="s5-1">
       <h3>5.1. Funcionalidades incluidas</h3>
 
-      <table border="1" id="tabla18">
+      <table id="tabla18">
         <caption>Tabla 18. Funcionalidades incluidas en la primera versión</caption>
         <thead>
           <tr>
@@ -1152,11 +1217,11 @@
       </table>
     </section>
 
-    <!-- ---------- 5.2 ---------- -->
+    <!-- ========== 5.2 ========== -->
     <section id="s5-2">
       <h3>5.2. Funcionalidades excluidas de esta versión</h3>
 
-      <table border="1" id="tabla19">
+      <table id="tabla19">
         <caption>Tabla 19. Funcionalidades excluidas de la primera versión</caption>
         <thead>
           <tr>
@@ -1209,7 +1274,7 @@
       </table>
     </section>
 
-    <!-- ---------- 5.3 ---------- -->
+    <!-- ========== 5.3 ========== -->
     <section id="s5-3">
       <h3>5.3. Funcionalidades previstas para versiones posteriores</h3>
       <p>
@@ -1217,7 +1282,7 @@
         las contempla para que su incorporación no obligue a rehacer lo construido.
       </p>
 
-      <table border="1" id="tabla20">
+      <table id="tabla20">
         <caption>Tabla 20. Funcionalidades previstas para versiones posteriores</caption>
         <thead>
           <tr>
@@ -1254,6 +1319,260 @@
   <hr>
 
   <!-- ============================================================
+       6. ARQUITECTURA Y TECNOLOGIAS
+       ============================================================ -->
+  <section id="seccion6">
+    <h2>6. Arquitectura y Tecnologías</h2>
+    <p>
+      La solución se construye como una aplicación web de tres capas, con el
+      cálculo aislado en un componente propio. Esa separación no es una
+      preferencia técnica: responde a dos requisitos del documento. El RNF23
+      exige que una nueva fuente de datos se incorpore sin modificar la lógica
+      de cálculo ni la interfaz, y el RNF28 exige que las reglas se cambien
+      desde la configuración sin un nuevo despliegue. Ninguna de las dos cosas
+      es posible si el cálculo vive mezclado con las pantallas.
+    </p>
+
+    <h3>6.1. Recorrido de los datos</h3>
+    <p>
+      El dato entra una sola vez y atraviesa el sistema en un único sentido.
+      El usuario carga el reporte exportado de la plataforma de asistencia, la
+      API lo valida y lo almacena sin interpretarlo todavía. El motor de reglas
+      lee esas marcaciones junto con el horario asignado y devuelve jornadas ya
+      clasificadas, que se guardan como resultado. A partir de ahí, el tablero
+      y el reporte mensual solo consultan: nadie vuelve a calcular nada sobre
+      la marcha. Por eso una corrección justificada o un cambio de tolerancia
+      obliga a recalcular el periodo de forma explícita (RF24), en lugar de
+      alterar el resultado en silencio.
+    </p>
+
+    <ul class="pila">
+      <li>React</li>
+      <li>Vite</li>
+      <li>Django</li>
+      <li>Django REST Framework</li>
+      <li>PostgreSQL</li>
+      <li>Python puro</li>
+      <li>Docker</li>
+    </ul>
+
+    <h3>6.2. Herramientas y tecnologías seleccionadas</h3>
+
+    <ul class="tecnologias">
+
+      <li>
+        <div class="logo-tec">
+          <img src="img/react.png" alt="Logotipo de React">
+        </div>
+        <h4>React</h4>
+        <p class="rol">Interfaz de usuario</p>
+        <p>
+          Construye el tablero como componentes reutilizables. Cada indicador,
+          filtro y tabla es una pieza independiente que se actualiza sola
+          cuando cambian los datos, sin recargar la página.
+        </p>
+        <ul class="detalles">
+          <li><strong>Función:</strong> tablero, filtros, carga de archivos y descarga de reportes.</li>
+          <li><strong>Requisitos:</strong> RF15 a RF18, RNF21.</li>
+          <li><strong>Por qué:</strong> el estado de los filtros cambia a cada momento y React evita reconstruir la pantalla entera.</li>
+        </ul>
+      </li>
+
+      <li>
+        <div class="logo-tec">
+          <img src="img/vite.png" alt="Logotipo de Vite">
+        </div>
+        <h4>Vite</h4>
+        <p class="rol">Entorno de construcción</p>
+        <p>
+          Servidor de desarrollo y empaquetador del lado del navegador. Levanta
+          el proyecto en milisegundos y refresca la pantalla al guardar, sin
+          esperar una compilación completa.
+        </p>
+        <ul class="detalles">
+          <li><strong>Función:</strong> recarga instantánea en desarrollo y compilación para producción.</li>
+          <li><strong>Requisitos:</strong> RNF17, RNF20.</li>
+          <li><strong>Por qué:</strong> genera paquetes pequeños, lo que sostiene el límite de tres segundos de carga.</li>
+        </ul>
+      </li>
+
+      <li>
+        <div class="logo-tec">
+          <img src="img/django-drf.png" alt="Logotipos de Django y Django REST Framework">
+        </div>
+        <h4>Django y Django REST Framework</h4>
+        <p class="rol">API y lógica de aplicación</p>
+        <p>
+          Expone la interfaz de programación que consume React. Trae resueltas
+          la autenticación, los permisos por perfil y el registro de
+          operaciones, que son requisitos del documento y no conviene escribir
+          a mano.
+        </p>
+        <ul class="detalles">
+          <li><strong>Función:</strong> autenticación, perfiles, validación de archivos, cierre y reportes.</li>
+          <li><strong>Requisitos:</strong> RF01 a RF05, RF19 a RF26, RNF01 a RNF03.</li>
+          <li><strong>Por qué:</strong> su sistema de permisos cubre los cinco perfiles definidos sin desarrollo adicional.</li>
+        </ul>
+      </li>
+
+      <li>
+        <div class="logo-tec">
+          <img src="img/postgresql.png" alt="Logotipo de PostgreSQL">
+        </div>
+        <h4>PostgreSQL</h4>
+        <p class="rol">Base de datos</p>
+        <p>
+          Guarda las marcaciones incorporadas, las jornadas calculadas, los
+          parámetros con su fecha de vigencia y la bitácora de auditoría. Sus
+          transacciones garantizan que una importación se aplique completa o no
+          se aplique.
+        </p>
+        <ul class="detalles">
+          <li><strong>Función:</strong> persistencia, transacciones y respaldos.</li>
+          <li><strong>Requisitos:</strong> RF14, RF23, RNF06, RNF25, RNF26.</li>
+          <li><strong>Por qué:</strong> maneja fechas, horas y zonas horarias de forma nativa, algo indispensable para los turnos que cruzan la medianoche.</li>
+        </ul>
+      </li>
+
+      <li>
+        <div class="logo-tec">
+          <img src="img/python.png" alt="Logotipo de Python">
+        </div>
+        <h4>Motor de reglas en Python puro</h4>
+        <p class="rol">Cálculo de la nómina</p>
+        <p>
+          El cálculo vive aparte, en funciones de Python sin ninguna librería
+          externa. Recibe marcaciones y horarios, devuelve jornadas
+          clasificadas y horas separadas. Nada más: no consulta la base de
+          datos ni conoce la interfaz.
+        </p>
+        <ul class="detalles">
+          <li><strong>Función:</strong> jornada diaria, turnos nocturnos, clasificación y horas suplementarias.</li>
+          <li><strong>Requisitos:</strong> RF06 a RF13, RNF16, RNF28, RNF29.</li>
+          <li><strong>Por qué:</strong> sin dependencias el resultado es reproducible y se prueba línea por línea ante una revisión de Contabilidad.</li>
+        </ul>
+      </li>
+
+    </ul>
+
+    <h3>6.3. Correspondencia entre capas y requisitos</h3>
+
+    <table id="tabla22">
+      <caption>Tabla 22. Arquitectura tecnológica de la solución</caption>
+      <thead>
+        <tr>
+          <th scope="col">Capa</th>
+          <th scope="col">Tecnología</th>
+          <th scope="col">Responsabilidad</th>
+          <th scope="col">Requisitos que sustenta</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Interfaz de usuario</th>
+          <td>React con Vite</td>
+          <td>Pantallas de carga, tablero de indicadores, filtros por área y colaborador, y descarga de reportes. Diseño adaptable a 360, 768 y 1280 píxeles.</td>
+          <td>RF15 a RF18, RNF21</td>
+        </tr>
+        <tr>
+          <th scope="row">API y lógica de aplicación</th>
+          <td>Django con Django REST Framework</td>
+          <td>Autenticación, perfiles de acceso diferenciados, validación de archivos, cierre del periodo y generación de reportes.</td>
+          <td>RF01 a RF05, RF19 a RF26</td>
+        </tr>
+        <tr>
+          <th scope="row">Persistencia</th>
+          <td>PostgreSQL</td>
+          <td>Marcaciones incorporadas, jornadas calculadas, parámetros con su fecha de vigencia y bitácora de auditoría no editable.</td>
+          <td>RF14, RF23, RNF06, RNF25, RNF26</td>
+        </tr>
+        <tr>
+          <th scope="row">Motor de reglas</th>
+          <td>Python puro, sin dependencias externas</td>
+          <td>Construcción de la jornada diaria, consolidación de turnos nocturnos, clasificación del comportamiento y separación de horas suplementarias y extraordinarias.</td>
+          <td>RF06 a RF13, RNF16, RNF29</td>
+        </tr>
+        <tr>
+          <th scope="row">Empaquetado y despliegue</th>
+          <td>Docker</td>
+          <td>Instalación del sistema completo con un solo comando en Windows, Linux y macOS.</td>
+          <td>RNF19, RNF30</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      <small>
+        Nota. El motor de reglas se escribe en Python puro de forma deliberada.
+        Al no depender de ninguna librería externa, su resultado es
+        reproducible, se puede probar línea por línea y queda auditable ante
+        una revisión del área de Contabilidad.
+      </small>
+    </p>
+  </section>
+
+  <hr>
+
+  <!-- ============================================================
+       7. EL PLUS DE LA SOLUCION
+       ============================================================ -->
+  <section id="seccion7">
+    <h2>7. El Plus de la Solución</h2>
+    <p>
+      Cualquier hoja de cálculo puede sumar horas. Lo que distingue a esta
+      aplicación es lo que ocurre alrededor de esa suma: de dónde sale cada
+      cifra, quién la modificó y con qué regla se obtuvo.
+    </p>
+
+    <ul class="tarjetas">
+      <li>
+        <h3>Trazabilidad completa</h3>
+        <p>Cada cifra del reporte se puede abrir hasta las marcaciones que la originaron, con la regla aplicada a la vista.</p>
+      </li>
+      <li>
+        <h3>Reglas sin programador</h3>
+        <p>Tolerancias, feriados, recargos y fechas de corte se cambian desde la interfaz, sin tocar el código ni volver a desplegar.</p>
+      </li>
+      <li>
+        <h3>Cálculo determinista</h3>
+        <p>Los mismos datos producen siempre el mismo resultado. La lógica se cubre con pruebas automatizadas sobre el 80 % de sus líneas.</p>
+      </li>
+      <li>
+        <h3>Accesible de verdad</h3>
+        <p>Nivel AA de WCAG 2.1, operable solo con teclado y legible en escala de grises, porque el color nunca es el único portador de información.</p>
+      </li>
+      <li>
+        <h3>Sin datos biométricos</h3>
+        <p>Solo se almacena el identificador del colaborador y el instante de la marcación, conforme a la Ley Orgánica de Protección de Datos Personales.</p>
+      </li>
+      <li>
+        <h3>Nada se pierde a medias</h3>
+        <p>Una importación se aplica completa o no se aplica. Un archivo con errores nunca deja el periodo a medio cargar.</p>
+      </li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- ============================================================
+       8. PROTOTIPO DE LA INTERFAZ
+       ============================================================ -->
+  <section id="seccion8" class="prototipo">
+    <h2>8. Prototipo de la Interfaz</h2>
+    <p>
+      La consola de nómina está prototipada en Figma. El prototipo recoge el
+      tablero de asistencia del día, los indicadores del periodo, la pantalla
+      de carga con su informe de validación y el cierre con revisión previa de
+      novedades.
+    </p>
+    <p>
+      <a class="boton" href="https://www.figma.com/make/8qvbA9qrd4P1jdIL5RerFJ/Consola-de-N%C3%B3mina-NETTPLUS?p=f&amp;t=FRSyHX6tEkepqeAa-0" target="_blank" rel="noopener noreferrer">Abrir la Consola de Nómina NETTPLUS</a>
+    </p>
+  </section>
+
+  <hr>
+
+  <!-- ============================================================
        ANEXO A
        ============================================================ -->
   <section id="anexoA">
@@ -1266,7 +1585,7 @@
       desarrollo.
     </p>
 
-    <table border="1" id="tabla21">
+    <table id="tabla21">
       <caption>Tabla 21. Trazabilidad entre las necesidades del cliente y los requisitos</caption>
       <thead>
         <tr>
@@ -1446,7 +1765,8 @@
 <!-- ============================================================
      PIE DE PÁGINA
      ============================================================ -->
-<footer>
+<footer class="pie">
+  <div class="pie-interior">
   <h2>Datos del documento</h2>
 
   <dl>
@@ -1469,7 +1789,10 @@
   <p><a href="#indice">Volver al índice</a></p>
 
   <p><small>&copy; 2026 — Documento académico, Universidad Técnica Particular de Loja</small></p>
+  </div>
 </footer>
+
+<button type="button" class="arriba" id="boton-arriba">Subir</button>
 
 </body>
 </html>
