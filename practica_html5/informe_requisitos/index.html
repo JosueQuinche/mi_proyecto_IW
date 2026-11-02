@@ -75,7 +75,7 @@
     de indicadores de asistencia y la preparación del reporte de nómina.
     Construida con React y Vite en el navegador, Django y Django REST Framework
     en el servidor, PostgreSQL como base de datos y un motor de reglas
-    escrito en Python puro.
+    escrito en Python puro, todo empaquetado en contenedores de Docker.
   </p>
 
   <ul class="cifras">
@@ -96,8 +96,8 @@
 
   <address>Autor: Josué Quinche</address>
   <p>
-    Versión 1.0 — Loja, Ecuador,
-    <time datetime="2026-10-18">18 de octubre de 2026</time>
+    Versión 1.1 — Loja, Ecuador,
+    <time datetime="2026-11-02">2 de noviembre de 2026</time>
   </p>
 </header>
 
@@ -237,7 +237,16 @@
       </tr>
       <tr>
         <th scope="row">Versión y fecha</th>
-        <td>1.0 — <time datetime="2026-10-18">18 de octubre de 2026</time></td>
+        <td>1.1 — <time datetime="2026-11-02">2 de noviembre de 2026</time></td>
+      </tr>
+      <tr>
+        <th scope="row">Cambios de la versión 1.1</th>
+        <td>
+          Se precisa la regla de cálculo de RF10 y RF11 conforme al Código del
+          Trabajo, se amplía RF14 con la política de horas extra, se incorpora
+          Docker a las tecnologías descritas y se registran en el Anexo B las
+          decisiones que quedan parametrizadas
+        </td>
       </tr>
     </tbody>
   </table>
@@ -556,14 +565,21 @@
           <tr>
             <th scope="row">RF10</th>
             <td>Calcular las horas suplementarias y extraordinarias</td>
-            <td>El sistema deberá calcular las horas trabajadas y separar las que exceden la jornada ordinaria, distinguiendo entre suplementarias y extraordinarias según el día y el tramo horario.</td>
+            <td>
+              El sistema deberá calcular las horas trabajadas y separar las que exceden la jornada ordinaria según el día y el tramo horario, conforme al artículo 55 del Código del Trabajo:
+              <ul>
+                <li><strong>Suplementarias:</strong> el excedente en día laborable, con un máximo de cuatro horas diarias y doce semanales (recargo del 50 %).</li>
+                <li><strong>Extraordinarias:</strong> el trabajo en día de descanso o feriado y el excedente comprendido entre las 00:00 y las 06:00 (recargo del 100 %).</li>
+                <li><strong>Nocturnas:</strong> los minutos trabajados dentro de la franja nocturna (recargo del 25 %).</li>
+              </ul>
+            </td>
             <td>Sistema</td>
             <td>Alta</td>
           </tr>
           <tr>
             <th scope="row">RF11</th>
             <td>Aplicar el estado de aprobación de las novedades</td>
-            <td>El sistema deberá computar únicamente los permisos y las horas extra que tengan aprobación registrada, y presentar las solicitudes pendientes en una lista aparte con su efecto potencial en horas.</td>
+            <td>El sistema deberá computar únicamente los permisos y las horas extra que tengan aprobación registrada, y presentar las solicitudes pendientes en una lista aparte con su efecto potencial en horas. La permanencia que exceda lo aprobado se registrará aparte y no se computará para el pago.</td>
             <td>Sistema</td>
             <td>Alta</td>
           </tr>
@@ -604,7 +620,7 @@
           <tr>
             <th scope="row">RF14</th>
             <td>Administrar los parámetros de cálculo</td>
-            <td>El sistema deberá permitir modificar desde la interfaz las tolerancias de atraso y de salida anticipada, la duración de la jornada ordinaria, el calendario de feriados, los recargos y las fechas del periodo de corte, registrando la fecha de vigencia de cada cambio.</td>
+            <td>El sistema deberá permitir modificar desde la interfaz las tolerancias de atraso y de salida anticipada, la duración de la jornada ordinaria, el calendario de feriados, los recargos, las fechas del periodo de corte y la política de horas extra (exigencia de aprobación previa y cómputo de la llegada anticipada), registrando la fecha de vigencia de cada cambio.</td>
             <td>Jefatura de TH</td>
             <td>Alta</td>
           </tr>
@@ -1166,7 +1182,7 @@
             <td>RF06 a RF09</td>
           </tr>
           <tr>
-            <td>Cálculo de horas trabajadas, suplementarias y extraordinarias, considerando el estado de aprobación de las novedades.</td>
+            <td>Cálculo de horas trabajadas, suplementarias, extraordinarias y nocturnas conforme al Código del Trabajo, considerando el estado de aprobación de las novedades.</td>
             <td>RF10, RF11</td>
           </tr>
           <tr>
@@ -1178,7 +1194,7 @@
             <td>RF13</td>
           </tr>
           <tr>
-            <td>Configuración de tolerancias, feriados, recargos y periodo de corte desde la interfaz.</td>
+            <td>Configuración de tolerancias, feriados, recargos, periodo de corte y política de horas extra desde la interfaz.</td>
             <td>RF14</td>
           </tr>
           <tr>
@@ -1345,6 +1361,13 @@
       obliga a recalcular el periodo de forma explícita (RF24), en lugar de
       alterar el resultado en silencio.
     </p>
+    <p>
+      Las tres capas se entregan empaquetadas en contenedores de Docker. El
+      contenedor de la interfaz sirve la consola, el de la API ejecuta Django
+      junto con el motor de reglas y el de la base de datos aloja PostgreSQL.
+      Docker Compose los levanta juntos con un solo comando (RNF30), de modo
+      que el sistema se instala igual en Windows, Linux y macOS.
+    </p>
 
     <ul class="pila">
       <li>React</li>
@@ -1406,7 +1429,8 @@
           Expone la interfaz de programación que consume React. Trae resueltas
           la autenticación, los permisos por perfil y el registro de
           operaciones, que son requisitos del documento y no conviene escribir
-          a mano.
+          a mano. La sesión se maneja con tokens JWT y las contraseñas se
+          guardan cifradas con PBKDF2.
         </p>
         <ul class="detalles">
           <li><strong>Función:</strong> autenticación, perfiles, validación de archivos, cierre y reportes.</li>
@@ -1425,7 +1449,8 @@
           Guarda las marcaciones incorporadas, las jornadas calculadas, los
           parámetros con su fecha de vigencia y la bitácora de auditoría. Sus
           transacciones garantizan que una importación se aplique completa o no
-          se aplique.
+          se aplique, y sus disparadores impiden modificar o borrar las
+          marcaciones y la bitácora.
         </p>
         <ul class="detalles">
           <li><strong>Función:</strong> persistencia, transacciones y respaldos.</li>
@@ -1447,15 +1472,49 @@
           datos ni conoce la interfaz.
         </p>
         <ul class="detalles">
-          <li><strong>Función:</strong> jornada diaria, turnos nocturnos, clasificación y horas suplementarias.</li>
+          <li><strong>Función:</strong> jornada diaria, turnos nocturnos, clasificación y separación de horas suplementarias, extraordinarias y nocturnas.</li>
           <li><strong>Requisitos:</strong> RF06 a RF13, RNF16, RNF28, RNF29.</li>
-          <li><strong>Por qué:</strong> sin dependencias el resultado es reproducible y se prueba línea por línea ante una revisión de Contabilidad.</li>
+          <li><strong>Por qué:</strong> sin dependencias el resultado es reproducible y se prueba línea por línea con pytest ante una revisión de Contabilidad.</li>
+        </ul>
+      </li>
+
+      <li>
+        <div class="logo-tec">
+          <img src="img/docker.png" alt="Logotipo de Docker">
+        </div>
+        <h4>Docker y Docker Compose</h4>
+        <p class="rol">Empaquetado y despliegue</p>
+        <p>
+          No es una capa de la aplicación: envuelve a las tres. La interfaz,
+          la API con el motor de reglas y la base de datos corren cada una en
+          su propio contenedor, con las versiones exactas con que se
+          probaron. Todo el sistema se levanta con un solo comando y, la
+          primera vez, crea la base de datos y carga los datos de
+          demostración.
+        </p>
+        <ul class="detalles">
+          <li><strong>Función:</strong> instalación, ejecución y despliegue del sistema completo.</li>
+          <li><strong>Requisitos:</strong> RNF19, RNF30.</li>
+          <li><strong>Por qué:</strong> elimina el «en mi máquina funciona»: Talento Humano, el docente o el servidor de la empresa ejecutan exactamente lo mismo.</li>
         </ul>
       </li>
 
     </ul>
 
-    <h3>6.3. Correspondencia entre capas y requisitos</h3>
+    <h3>6.3. Bibliotecas de apoyo</h3>
+    <p>
+      Además de las tecnologías principales, la solución utiliza bibliotecas
+      puntuales, todas fuera del motor de reglas, que sigue sin dependencias:
+    </p>
+    <ul>
+      <li><strong>openpyxl:</strong> lee los reportes exportados en hoja de cálculo, incluidos los que traen una hoja por colaborador, y genera el reporte mensual en formato .xlsx (RF01 a RF04, RF20, RNF22).</li>
+      <li><strong>ReportLab:</strong> genera el reporte mensual y la ficha de retroalimentación en documento portátil (RF18, RF20, RNF22).</li>
+      <li><strong>Simple JWT:</strong> emite y renueva los tokens de sesión de la API (RNF01).</li>
+      <li><strong>Tailwind CSS:</strong> aplica la paleta corporativa de NETTPLUS de forma uniforme en todas las pantallas (RNF09).</li>
+      <li><strong>pytest:</strong> ejecuta las pruebas automatizadas y mide su cobertura (RNF29).</li>
+    </ul>
+
+    <h3>6.4. Correspondencia entre capas y requisitos</h3>
 
     <table id="tabla22">
       <caption>Tabla 22. Arquitectura tecnológica de la solución</caption>
@@ -1489,13 +1548,19 @@
         <tr>
           <th scope="row">Motor de reglas</th>
           <td>Python puro, sin dependencias externas</td>
-          <td>Construcción de la jornada diaria, consolidación de turnos nocturnos, clasificación del comportamiento y separación de horas suplementarias y extraordinarias.</td>
+          <td>Construcción de la jornada diaria, consolidación de turnos nocturnos, clasificación del comportamiento y separación de horas suplementarias, extraordinarias y nocturnas según el Código del Trabajo.</td>
           <td>RF06 a RF13, RNF16, RNF29</td>
         </tr>
         <tr>
+          <th scope="row">Lectura y generación de archivos</th>
+          <td>openpyxl y ReportLab</td>
+          <td>Lectura de los reportes exportados y generación del reporte mensual y de la ficha en hoja de cálculo y documento portátil.</td>
+          <td>RF01 a RF04, RF18, RF20, RNF22</td>
+        </tr>
+        <tr>
           <th scope="row">Empaquetado y despliegue</th>
-          <td>Docker</td>
-          <td>Instalación del sistema completo con un solo comando en Windows, Linux y macOS.</td>
+          <td>Docker y Docker Compose</td>
+          <td>Un contenedor por capa: interfaz, API con el motor de reglas, y base de datos. Instalación del sistema completo con un solo comando en Windows, Linux y macOS.</td>
           <td>RNF19, RNF30</td>
         </tr>
       </tbody>
@@ -1697,18 +1762,21 @@
       Los siguientes puntos quedaron sin definir al cierre de la reunión. Se registran
       de forma explícita porque condicionan la implementación de los requisitos
       señalados, y su confirmación se gestiona con el cliente antes de iniciar la
-      construcción.
+      construcción. Los que corresponden a reglas de cálculo quedan implementados
+      como parámetros con un valor provisional, de modo que la decisión del cliente
+      se aplique desde la configuración sin modificar el código (RNF28).
     </p>
 
     <ol>
       <li>Los valores de tolerancia de atraso y de salida anticipada, y el umbral a partir del cual un atraso se considera falta (afecta a RF09 y RF14).</li>
       <li>Las fechas exactas de inicio y cierre del periodo de corte mensual (afecta a RF14, RF19 y RF20).</li>
-      <li>La política de cálculo de horas suplementarias y extraordinarias, con sus recargos (afecta a RF10).</li>
+      <li>La política de cálculo de horas suplementarias y extraordinarias, con sus recargos (afecta a RF10, RF11 y RF14). En particular, se requiere confirmar si el pago de horas extra exige una solicitud aprobada y si la llegada anticipada al horario se computa como tiempo trabajado.</li>
       <li>El tratamiento de las marcaciones faltantes, duplicadas o impares en el procedimiento actual del área (afecta a RF09 y RF21).</li>
       <li>La estructura exacta del archivo que requiere el área de Contabilidad (afecta a RF20).</li>
       <li>La disponibilidad de las fechas de ingreso y salida de los colaboradores en los reportes exportados (afecta a RF17).</li>
       <li>La entrega de archivos de muestra de cada tipo de reporte y de un periodo calculado manualmente para contrastar los resultados.</li>
       <li>La habilitación, por parte del proveedor externo, del acceso a la interfaz de programación de la plataforma de asistencia (afecta a RF05).</li>
+      <li>La amplitud de la ventana de marcación posterior al horario. Con el valor provisional de 120 minutos, una salida registrada más de dos horas después del fin del horario no se atribuye a esa jornada, que queda como marcación incompleta en lugar de inventar un dato (afecta a RF07 y RF09).</li>
     </ol>
   </section>
 
@@ -1729,6 +1797,11 @@
         Congreso Nacional del Ecuador. (2005).
         <cite>Código del Trabajo</cite>
         (Registro Oficial Suplemento 167). Quito, Ecuador.
+      </li>
+      <li>
+        Docker Inc. (2025).
+        <cite>Docker Compose documentation</cite>.
+        <a href="https://docs.docker.com/compose/">https://docs.docker.com/compose/</a>
       </li>
       <li>
         Institute of Electrical and Electronics Engineers. (1998).
@@ -1783,7 +1856,7 @@
     <dd>Josué Quinche</dd>
 
     <dt>Versión</dt>
-    <dd>1.0 — <time datetime="2026-10-18">18 de octubre de 2026</time></dd>
+    <dd>1.1 — <time datetime="2026-11-02">2 de noviembre de 2026</time></dd>
   </dl>
 
   <p><a href="#indice">Volver al índice</a></p>
