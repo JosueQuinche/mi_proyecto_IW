@@ -46,6 +46,20 @@ function mostrarTemas() {
 mostrarTemas();
 
 // PASO 4. Crear un tema y actualizar el DOM sin recargar.
+
+// ==================================================================
+// RETO 3 (parte 1): función nueva para comparar temas.
+// ANTES: aquí no había nada, el código pasaba directo a:
+//   const formularioTema = document.querySelector("#form-tema");
+// AHORA: se agrega esta función.
+//   - toLowerCase()        -> "Fetch API" y "fetch api" quedan iguales
+//   - replace(/\s+/g, "")  -> quita todos los espacios: "fetch  api" = "fetchapi"
+// ==================================================================
+function normalizar(texto) {
+  return texto.toLowerCase().replace(/\s+/g, "");
+}
+// ===================== FIN RETO 3 (parte 1) =======================
+
 const formularioTema = document.querySelector("#form-tema");
 const campoTema = document.querySelector("#nuevo-tema");
 const mensajeTema = document.querySelector("#tema-mensaje");
@@ -57,6 +71,21 @@ formularioTema.addEventListener("submit", (evento) => {
     mensajeTema.textContent = "Escribe un tema de al menos 3 caracteres.";
     return;
   }
+
+  // ================================================================
+  // RETO 3 (parte 2): no agregar un tema repetido.
+  // ANTES: después de validar los 3 caracteres se agregaba directo:
+  //   temas.push({ titulo, detalle: "Tema agregado durante la práctica." });
+  // AHORA: antes del push se revisa si el tema ya existe.
+  //   some() devuelve true si AL MENOS UN tema del arreglo es igual.
+  // ================================================================
+  const yaExiste = temas.some((tema) => normalizar(tema.titulo) === normalizar(titulo));
+  if (yaExiste) {
+    mensajeTema.textContent = `El tema "${titulo}" ya existe. Escribe uno diferente.`;
+    return; // corta aquí y NO agrega el tema
+  }
+  // =================== FIN RETO 3 (parte 2) =======================
+
   temas.push({ titulo, detalle: "Tema agregado durante la práctica." });
   mostrarTemas();
   formularioTema.reset();
@@ -68,6 +97,17 @@ const participantes = [];
 const formularioRegistro = document.querySelector("#form-registro");
 const listaParticipantes = document.querySelector("#lista-participantes");
 const totalParticipantes = document.querySelector("#total-participantes");
+
+// ==================================================================
+// RETO 5 (parte 1): buscar el párrafo del aviso.
+// ANTES: aquí no había nada, después de totalParticipantes seguía:
+//   function mostrarError(nombreCampo, mensaje) { ... }
+// AHORA: se busca el <p id="aviso-participantes"> que se agregó en el
+//   index.html y se define el límite de participantes para el aviso.
+// ==================================================================
+const LIMITE_AVISO = 3;
+const avisoParticipantes = document.querySelector("#aviso-participantes");
+// ===================== FIN RETO 5 (parte 1) =======================
 
 function mostrarError(nombreCampo, mensaje) {
   const campo = document.querySelector(`#${nombreCampo}`);
@@ -106,6 +146,24 @@ function validarRegistro(nombre, correo, rol) {
 function mostrarParticipantes() {
   listaParticipantes.replaceChildren();
   totalParticipantes.textContent = String(participantes.length);
+
+  // ================================================================
+  // RETO 5 (parte 2): mostrar u ocultar el aviso.
+  // ANTES: después de actualizar el total seguía directo:
+  //   if (participantes.length === 0) { ... }
+  // AHORA: se revisa si ya hay 3 (o más) participantes.
+  //   Como esta función se llama al registrar y al limpiar,
+  //   el aviso aparece y desaparece solo.
+  // ================================================================
+  if (participantes.length >= LIMITE_AVISO) {
+    avisoParticipantes.textContent = `¡Ya se registraron ${participantes.length} participantes! Se alcanzó la meta de ${LIMITE_AVISO}.`;
+    avisoParticipantes.hidden = false;
+  } else {
+    avisoParticipantes.textContent = "";
+    avisoParticipantes.hidden = true;
+  }
+  // =================== FIN RETO 5 (parte 2) =======================
+
   if (participantes.length === 0) {
     const mensaje = document.createElement("li");
     mensaje.className = "vacio";

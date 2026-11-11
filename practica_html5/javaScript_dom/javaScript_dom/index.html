@@ -93,6 +93,16 @@
           <div class="total-registros"><span id="total-participantes">0</span>
             <span>registros en esta sesión</span>
           </div>
+          <!-- ==========================================================
+               RETO 5: párrafo para el aviso de 3 participantes.
+               ANTES: después del div "total-registros" seguía directo la lista:
+                 <ul id="lista-participantes" class="lista-participantes" aria-live="polite">
+               AHORA: se agrega este párrafo vacío y oculto (hidden).
+                 JavaScript le pone el texto y lo muestra al llegar a 3.
+               ========================================================== -->
+          <p id="aviso-participantes" class="aviso" role="status" hidden></p>
+          <!-- ===================== FIN RETO 5 ===================== -->
+
           <ul id="lista-participantes" class="lista-participantes" aria-live="polite">
             <li class="vacio">Todavía no hay participantes.</li>
           </ul>
