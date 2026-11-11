@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Practica de JavaScript">
+  <title>Laboratorio JavaScript | Ingeniería Web</title>
+  <link rel="stylesheet" href="css/estilos.css">
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <header class="cabecera">
+    <div class="contenedor cabecera-contenido">
+      <div class="marca"><span class="marca-icono">JS</span><span>Ingeniería Web</span></div>
+      <nav><a href="#bienvenida">Inicio</a><a href="#temas">Temas</a><a href="#registro">Registro</a></nav>
+    </div>
+  </header>
+  <main class="contenedor">
+    <section id="bienvenida" class="hero">
+      <div>
+        <p class="etiqueta">INGENIERÍA WEB · CLASE 6</p>
+        <h1>De una página estática a una interfaz interactiva</h1>
+        <p class="descripcion">Observa cómo JavaScript responde a eventos, modifica el DOM y valida datos sin recargar la página.</p>
+        <button id="btn-saludo" class="boton boton-principal" type="button">Mostrar saludo</button>
+        <p id="saludo" class="saludo">Presiona el botón para comenzar.</p></div>
+      <aside class="panel-hero">
+        <div class="codigo-titulo">js/app.js</div>
+          <code>const curso = "Ingeniería Web";
+            <br>let participantes = 0;
+            <br>
+            <br>
+            function saludar() {
+              <br>&nbsp; return `¡Bienvenidos!`;
+              <br>
+            }
+          </code>
+        <div class="punto-verde">● Código ejecutado en tu navegador</div></aside>
+    </section>
+    <section id="temas" class="bloque">
+      <div class="encabezado">
+        <div>
+          <p class="etiqueta">DOM + EVENTOS</p>
+          <h2>Temas de la práctica</h2>
+        </div>
+        <span class="contador">
+          <strong id="total-temas">0</strong> temas</span>
+      </div>
+      <p class="descripcion">Los elementos de abajo se generan desde un arreglo de objetos en JavaScript. Prueba añadir un tema.</p>
+      <div id="lista-temas" class="grid-temas" aria-live="polite">
+
+      </div>
+      <form id="form-tema" class="form-inline">
+        <label for="nuevo-tema">Nuevo tema</label>
+        <div class="fila">
+          <input id="nuevo-tema" name="tema" type="text" maxlength="40" placeholder="Ej.: Fetch API" required>
+          <button class="boton boton-secundario" type="submit">Agregar tema</button>
+        </div>
+        <small id="tema-mensaje" class="ayuda" aria-live="polite"></small>
+      </form>
+    </section>
+    <section id="registro" class="bloque">
+      <div class="encabezado"><div>
+        <p class="etiqueta">FORMULARIOS</p>
+        <h2>Registro para el taller</h2>
+      </div>
+    </div>
+    <div class="dos-columnas">
+      <form id="form-registro" class="tarjeta formulario" novalidate>
+        <div class="campo">
+          <label for="nombre">Nombre completo</label>
+          <input id="nombre" name="nombre" type="text" autocomplete="name" placeholder="Ej.: Ana Torres" required minlength="3">
+          <small id="error-nombre" class="error" aria-live="polite"></small>
+        </div><div class="campo">
+          <label for="correo">Correo electrónico</label>
+          <input id="correo" name="correo" type="email" autocomplete="email" placeholder="nombre@ejemplo.com" required>
+          <small id="error-correo" class="error" aria-live="polite"></small>
+        </div>
+        <div class="campo">
+          <label for="rol">Rol dentro del equipo</label>
+          <select id="rol" name="rol" required>
+            <option value="">Seleccione una opción</option>
+            <option value="Frontend">Frontend</option>
+            <option value="Backend">Backend</option>
+            <option value="Diseño UX">Diseño UX</option></select>
+            <small id="error-rol" class="error" aria-live="polite"></small>
+          </div>
+          <button type="submit" class="boton boton-principal ancho-completo">Registrar participante</button>
+          <p class="nota">Demostración local: los datos se guardan solo en memoria mientras la página permanezca abierta.</p>
+        </form>
+        <aside class="tarjeta registro-panel">
+          <h3>Participantes registrados</h3>
+          <p class="descripcion">El listado se actualiza dinámicamente, sin recargar la página.</p>
+          <div class="total-registros"><span id="total-participantes">0</span>
+            <span>registros en esta sesión</span>
+          </div>
+          <ul id="lista-participantes" class="lista-participantes" aria-live="polite">
+            <li class="vacio">Todavía no hay participantes.</li>
+          </ul>
+          <button id="btn-limpiar" type="button" class="boton boton-texto">Limpiar registros</button>
+        </aside>
+      </div>
+    </section>
+  </main>
+  <footer class="pie">
+    <div class="contenedor">Práctica de JavaScript · HTML + CSS + JavaScript · No requiere servidor ni base de datos</div>
+  </footer>
+</body>
+</html>
